@@ -17,6 +17,8 @@ public:
   virtual void Infer(const std::vector<TensorShape>& in_shapes, 
                      std::vector<TensorShape>& out_shapes) = 0;
 
+  virtual void Gradient() = 0;
+
   std::string GetOpType() { return op_type_; }
 
   static std::shared_ptr<Op> Create(const std::string& name);
@@ -42,6 +44,10 @@ public:
                      std::vector<TensorShape>& out_shapes) override {
     out_shapes.push_back(in_shapes[0]);
   }
+
+  virtual void Gradient() override {
+  
+  }
 };
 
 class MinusOp : public Op {
@@ -60,6 +66,10 @@ public:
   virtual void Infer(const std::vector<TensorShape>& in_shapes, 
                      std::vector<TensorShape>& out_shapes) override {
     out_shapes.push_back(in_shapes[0]);
+  }
+
+  virtual void Gradient() override {
+  
   }
 };
 
@@ -80,6 +90,10 @@ public:
                      std::vector<TensorShape>& out_shapes) override {
     out_shapes.push_back(in_shapes[0]);
   }
+
+  virtual void Gradient() override {
+  
+  }
 };
 
 class DevideOp : public Op {
@@ -98,6 +112,10 @@ public:
   virtual void Infer(const std::vector<TensorShape>& in_shapes, 
                      std::vector<TensorShape>& out_shapes) override {
     out_shapes.push_back(in_shapes[0]);
+  }
+
+  virtual void Gradient() override {
+  
   }
 };
 
@@ -127,6 +145,10 @@ public:
     TensorShape out_shape(in_shapes[0].dim_size(0), in_shapes[1].dim_size(1));
     out_shapes.push_back(out_shape);
   }
+
+  virtual void Gradient() override {
+  
+  }
 };
 
 class SoftmaxOp : public Op {
@@ -139,6 +161,10 @@ public:
 
   virtual void Infer(const std::vector<TensorShape>& in_shapes, 
                      std::vector<TensorShape>& out_shapes) override {
+  }
+
+  virtual void Gradient() override {
+  
   }
 };
 #endif

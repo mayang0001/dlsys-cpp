@@ -16,7 +16,7 @@ public:
     GetTopoOrder();
   }
 
-  void run(std::unordered_map<Node, Tensor>& node_to_tensor) {
+  void Run(std::unordered_map<Node, Tensor>& node_to_tensor) {
     for (auto node : topo_orders_) {
       if (node_to_tensor.find(node) != node_to_tensor.end()) continue;
 
@@ -40,6 +40,15 @@ public:
     }
   }
 
+  void Gradient() {
+    std::vecotr<Node> reverse_topo_order = reverse(topo_orders_.begin(), 
+                                                   topo_orders_.end());
+    for (auto node : reverse_topo_order) {
+      node.GetOp()->Gradient();
+    }
+  }
+
+private:
   void GetTopoOrder() {
     std::unordered_set<Node> visited;
     for (auto node : outs_) {
@@ -47,25 +56,23 @@ public:
     }
   }
 
-private:
-    void dfs(const Node& node, std::unordered_set<Node>& visited) {
-      if (visited.find(node) == visited.end()) {
-        std::vector<Node> input_nodes;
-        node.GetInputNodes(input_nodes);
-        if (!node.IsVariable()) {
-          for (auto input_node : input_nodes) {
-            dfs(input_node, visited);      
-          } 
-        }
-        visited.insert(node);
-        topo_orders_.push_back(node);
-      } 
-    };
+  void dfs(const Node& node, std::unordered_set<Node>& visited) {
+    if (visited.find(node) == visited.end()) {
+      std::vector<Node> input_nodes;
+      node.GetInputNodes(input_nodes);
+      if (!node.IsVariable()) {
+        for (auto input_node : input_nodes) {
+          dfs(input_node, visited);      
+        } 
+      }
+      visited.insert(node);
+      topo_orders_.push_back(node);
+    } 
+  };
 
   std::vector<Node> outs_;
   Context ctx_;
   std::vector<Node> topo_orders_;
-  std::unordered_map<Node, Tensor> node_to_tensor_;
 };
 
 #endif 

@@ -49,6 +49,11 @@ public:
     }
   }
 
+  template<typename T>
+  void SetParam(const std::string& key, const T& val) {
+  
+  }
+
   void SetOp(std::shared_ptr<Op> op) {
     op_ = op;
   }
@@ -62,6 +67,7 @@ public:
 private:
   std::string name_;
   std::vector<Node> inputs_;
+  std::unordered_map<std::string, std::string> attrs_;
   std::shared_ptr<Op> op_;
 };
 

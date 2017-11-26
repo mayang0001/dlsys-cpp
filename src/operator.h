@@ -2,6 +2,7 @@
 #define OPERATOR_H_
 
 #include <vector>
+#include <string>
 #include <unordered_map>
 #include "op.h"
 #include "tensor.h"
@@ -12,6 +13,10 @@ class Operator {
 public:
   explicit Operator(const std::string& name); 
 
+  Operator(const Operator&) = delete;
+
+  Operator Operator(const Operator&) = delete;
+
   template <typename T>
   Operator SetParam(const std::string& name, const T& val);
 
@@ -19,6 +24,7 @@ public:
   Node CreateNode(Args... args);
 
 private:
+  std::unordered_map<std::string, std::string> attrs_;
   std::shared_ptr<Op> op_;
 };
 
