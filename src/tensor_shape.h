@@ -9,33 +9,29 @@ public:
   TensorShape() {
   }
 
-  ~TensorShape() {
-    delete[] dim_size_;  
-  }
-
-  TensorShape(int x) {
+  explicit TensorShape(int x) 
+      : num_dims_(1) {
     dim_size_ = new int;
     dim_size_[0] = x;
-    num_dims_ = 1; 
   }
 
-  TensorShape(int x, int y) {
+  TensorShape(int x, int y) 
+      : num_dims_(2) {
     dim_size_ = new int[2];
     dim_size_[0] = x;
     dim_size_[1] =y;
-    num_dims_ = 2;
   }
 
-  TensorShape(int x, int y, int z) {
+  TensorShape(int x, int y, int z)
+      : num_dims_(3) {
     dim_size_ = new int[3];
     dim_size_[0] = x;
     dim_size_[1] = y;
     dim_size_[2] = x;
-    num_dims_ = 3;
   }
 
-  TensorShape(const TensorShape& shape) {
-    num_dims_ = shape.dims(); 
+  TensorShape(const TensorShape& shape) 
+      : num_dims_(shape.num_dims_) {
     dim_size_ = new int[num_dims_];
     for (int i = 0; i < num_dims_; i++) {
       dim_size_[i] = shape.dim_size(i);
@@ -52,6 +48,42 @@ public:
       }
     }
     return *this;
+  }
+
+  TensorShape(TensorShape&& shape) 
+      : num_dims(shape.num_dims) {
+    dim_size_ = shape.dim_size_;
+    shape.dim_size_ = nullptr;
+  }
+
+  TensorShape& operator=(TensorShape&& shape) {
+    if (this != &shape) {
+      num_dims_ = shape.num_dims_;
+      dim_size_ = shape.dim_size_;
+      shape.dim_size_ = nullptr;
+    } 
+    return *this;
+  }
+
+  bool operator==(const TensorShape& rhs) {
+    if (num_dims_ != rhs.num_dims_) {
+      return false;
+    } else {
+      for (int i = 0; i < num_dims; i++) {
+        if (dim_size_[i] != rhs.dim_size_[i]) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  bool operator!=(const TensorShape& rhs) {
+    return !(*this == rhs);
+  }
+
+  ~TensorShape() {
+    delete[] dim_size_;  
   }
 
   int dims() const { return num_dims_; }
@@ -80,9 +112,10 @@ public:
     shape_str += "]";
     return shape_str;
   }
+
 private:
-  int* dim_size_;
   int num_dims_;
+  int* dim_size_;
 };
 
 #endif
