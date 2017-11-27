@@ -1,9 +1,7 @@
 #include <iostream>
 #include <unordered_map>
-#include "context.h"
 #include "executor.h"
 #include "operator.h"
-#include "tensor.h"
 
 int main() {
   float* src = new float[10 * 10];

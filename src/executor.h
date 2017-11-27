@@ -5,8 +5,6 @@
 #include <unordered_set>
 #include "context.h"
 #include "node.h"
-#include "op.h"
-#include "tensor.h"
 
 class Executor {
 public:
@@ -41,8 +39,10 @@ public:
   }
 
   void Gradient(const std::vector<Node>& inputs) {
+    Node node("grad");
     for (auto iter = topo_orders_.rbegin(); iter != topo_orders_.rend(); iter++) {
-      iter->GetOp()->Gradient();
+      std::vector<Node> out_grads;
+      iter->GetOp()->Gradient(node, out_grads);
     }
   }
 

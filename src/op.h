@@ -6,7 +6,9 @@
 #include <string>
 #include <vector>
 #include "tensor.h"
+#include "operator.h"
 
+class Node;
 class Op {
 public:
   Op(const std::string& op_type) : op_type_(op_type) {}
@@ -17,7 +19,7 @@ public:
   virtual void Infer(const std::vector<TensorShape>& in_shapes, 
                      std::vector<TensorShape>& out_shapes) = 0;
 
-  virtual void Gradient() = 0;
+  virtual void Gradient(const Node& in_grad, std::vector<Node>& out_grads) = 0;
 
   std::string GetOpType() { return op_type_; }
 
@@ -45,7 +47,8 @@ public:
     out_shapes.push_back(in_shapes[0]);
   }
 
-  virtual void Gradient(const Node& node) override {
+  virtual void Gradient(const Node& in_grad,
+                        std::vector<Node>& out_grads) override {
   
   }
 };
@@ -68,7 +71,8 @@ public:
     out_shapes.push_back(in_shapes[0]);
   }
 
-  virtual void Gradient() override {
+  virtual void Gradient(const Node& in_grad, 
+                        std::vector<Node>& out_grads) override {
   
   }
 };
@@ -91,7 +95,8 @@ public:
     out_shapes.push_back(in_shapes[0]);
   }
 
-  virtual void Gradient() override {
+  virtual void Gradient(const Node& in_grad, 
+                        std::vector<Node>& out_grads) override {
   
   }
 };
@@ -114,7 +119,8 @@ public:
     out_shapes.push_back(in_shapes[0]);
   }
 
-  virtual void Gradient() override {
+  virtual void Gradient(const Node& in_grad, 
+                        std::vector<Node>& out_grads) override {
   
   }
 };
@@ -146,7 +152,8 @@ public:
     out_shapes.push_back(out_shape);
   }
 
-  virtual void Gradient() override {
+  virtual void Gradient(const Node& in_grad, 
+                        std::vector<Node>& out_grads) override {
   
   }
 };
@@ -163,7 +170,8 @@ public:
                      std::vector<TensorShape>& out_shapes) override {
   }
 
-  virtual void Gradient() override {
+  virtual void Gradient(const Node& in_grad, 
+                        std::vector<Node>& out_grads) override {
   
   }
 };

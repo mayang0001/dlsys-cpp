@@ -4,9 +4,7 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
-#include "op.h"
-#include "tensor.h"
-
+class Op;
 class Node;
 
 class Operator {
