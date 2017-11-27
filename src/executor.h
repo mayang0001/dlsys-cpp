@@ -40,7 +40,7 @@ public:
     }
   }
 
-  void Gradient() {
+  void Gradient(const std::vector<Node>& inputs) {
     for (auto iter = topo_orders_.rbegin(); iter != topo_orders_.rend(); iter++) {
       iter->GetOp()->Gradient();
     }

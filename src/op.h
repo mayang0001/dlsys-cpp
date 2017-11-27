@@ -45,7 +45,7 @@ public:
     out_shapes.push_back(in_shapes[0]);
   }
 
-  virtual void Gradient() override {
+  virtual void Gradient(const Node& node) override {
   
   }
 };
