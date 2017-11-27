@@ -8,7 +8,8 @@
 
 class Tensor {
 public:
-  Tensor() : shape_(TensorShape(0)), ctx_(Context::cpu()) {
+  Tensor() 
+      : shape_(TensorShape(0)), ctx_(Context::cpu()) {
     handle_ = new float[shape_.num_elements()];
   };
 
@@ -50,8 +51,10 @@ public:
 
   const TensorShape& GetTensorShape() const { return shape_; }
   const Context& GetContext() const { return ctx_; }
+  float* GetHandle() { return handle_; }
+  const float* GetHandle() const { return handle_; }
 
-  int num_elements() const {
+  int NumElements() const {
     return shape_.num_elements();
   }
 
@@ -67,9 +70,8 @@ public:
     } 
   }
 
-public:
-  float* handle_;
 private:
+  float* handle_;
   Context ctx_;
   TensorShape shape_;
 };

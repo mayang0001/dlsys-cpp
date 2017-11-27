@@ -51,7 +51,7 @@ public:
   }
 
   TensorShape(TensorShape&& shape) 
-      : num_dims(shape.num_dims) {
+      : num_dims_(shape.num_dims_) {
     dim_size_ = shape.dim_size_;
     shape.dim_size_ = nullptr;
   }
@@ -69,7 +69,7 @@ public:
     if (num_dims_ != rhs.num_dims_) {
       return false;
     } else {
-      for (int i = 0; i < num_dims; i++) {
+      for (int i = 0; i < num_dims_; i++) {
         if (dim_size_[i] != rhs.dim_size_[i]) {
           return false;
         }

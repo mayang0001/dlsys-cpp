@@ -13,10 +13,6 @@ class Operator {
 public:
   explicit Operator(const std::string& name); 
 
-  Operator(const Operator&) = delete;
-
-  Operator Operator(const Operator&) = delete;
-
   template <typename T>
   Operator SetParam(const std::string& name, const T& val);
 

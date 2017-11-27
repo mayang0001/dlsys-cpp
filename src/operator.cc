@@ -52,12 +52,19 @@ Node DevideOperator(const Node& lhs, const Node& rhs) {
   return Operator("Devide").CreateNode(lhs, rhs);
 }
 
+Node MatMulOperator(const Node& lhs, const Node& rhs) {
+  return Operator("MatMul").CreateNode(lhs, rhs);
+}
+
+/***
+// TODO
 Node MatMulOperator(const Node& lhs, const Node& rhs, 
                     bool tanspose_a = false, bool transpose_b = false) {
   Node node = Operator("MatMul").CreateNode(lhs, rhs);
   node.SetParam("transpose_a", transpose_a);
   node.SetParam("transpose_b", transpose_b);
 }
+***/
 
 Node SoftmaxOperator(const Node& lhs, const Node& rhs) {
   return Operator("Softmax").CreateNode(lhs, rhs);

@@ -2,6 +2,7 @@
 #define NODE_H_
 
 #include <functional>
+#include <unordered_map>
 #include <iostream>
 #include <string>
 #include "op.h"

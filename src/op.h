@@ -35,8 +35,8 @@ public:
                        std::vector<Tensor>& out_tensors) override {
     const TensorShape& out_shape = out_tensors[0].GetTensorShape();
     for (int i = 0; i < out_shape.num_elements(); i++) {
-      out_tensors[0].handle_[i] = 
-          in_tensors[0].handle_[i] + in_tensors[1].handle_[i];
+      out_tensors[0].GetHandle()[i] = 
+          in_tensors[0].GetHandle()[i] + in_tensors[1].GetHandle()[i];
     }
   }
 
@@ -58,8 +58,8 @@ public:
                        std::vector<Tensor>& out_tensors) override {
     const TensorShape& out_shape = out_tensors[0].GetTensorShape();
     for (int i = 0; i < out_shape.num_elements(); i++) {
-      out_tensors[0].handle_[i] = 
-          in_tensors[0].handle_[i] - in_tensors[1].handle_[i];
+      out_tensors[0].GetHandle()[i] = 
+          in_tensors[0].GetHandle()[i] - in_tensors[1].GetHandle()[i];
     }
   }
 
@@ -81,8 +81,8 @@ public:
                        std::vector<Tensor>& out_tensors) override {
     const TensorShape& out_shape = out_tensors[0].GetTensorShape();
     for (int i = 0; i < out_shape.num_elements(); i++) {
-      out_tensors[0].handle_[i] = 
-          in_tensors[0].handle_[i] * in_tensors[1].handle_[i];
+      out_tensors[0].GetHandle()[i] = 
+          in_tensors[0].GetHandle()[i] * in_tensors[1].GetHandle()[i];
     }
   }
 
@@ -104,8 +104,8 @@ public:
                        std::vector<Tensor>& out_tensors) override {
     const TensorShape& out_shape = out_tensors[0].GetTensorShape();
     for (int i = 0; i < out_shape.num_elements(); i++) {
-      out_tensors[0].handle_[i] = 
-          in_tensors[0].handle_[i] / in_tensors[1].handle_[i];
+      out_tensors[0].GetHandle()[i] = 
+          in_tensors[0].GetHandle()[i] / in_tensors[1].GetHandle()[i];
     }
   }
 
@@ -132,10 +132,10 @@ public:
       for (int j = 0; j < num_k; j++) {
         int sum = 0;
         for (int k = 0; k < num_n; k++) {
-          sum += in_tensors[0].handle_[num_n * i + k] * 
-                 in_tensors[1].handle_[num_k * k + j];
+          sum += in_tensors[0].GetHandle()[num_n * i + k] * 
+                 in_tensors[1].GetHandle()[num_k * k + j];
         }
-        out_tensors[0].handle_[num_k * i + j] = sum;
+        out_tensors[0].GetHandle()[num_k * i + j] = sum;
       }
     }
   }

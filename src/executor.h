@@ -41,10 +41,8 @@ public:
   }
 
   void Gradient() {
-    std::vecotr<Node> reverse_topo_order = reverse(topo_orders_.begin(), 
-                                                   topo_orders_.end());
-    for (auto node : reverse_topo_order) {
-      node.GetOp()->Gradient();
+    for (auto iter = topo_orders_.rbegin(); iter != topo_orders_.rend(); iter++) {
+      iter->GetOp()->Gradient();
     }
   }
 

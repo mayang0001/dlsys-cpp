@@ -29,7 +29,7 @@ int main() {
   feed_dicts[node_a] = tensor_a;
   feed_dicts[node_b] = tensor_b;
   feed_dicts[node_c] = tensor_c;
-  exec.run(feed_dicts);
+  exec.Run(feed_dicts);
   feed_dicts[node_e].Debug();
   delete[] src;
 }
