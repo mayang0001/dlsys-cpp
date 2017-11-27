@@ -14,6 +14,10 @@ std::shared_ptr<Op> Op::Create(const std::string& name) {
     return std::make_shared<MultiplyOp>(name);
   } else if (name == "Devide"){
     return std::make_shared<DevideOp>(name);
+  } else if (name == "Zeros"){
+    return std::make_shared<ZerosOp>(name);
+  } else if (name == "Ones"){
+    return std::make_shared<OnesOp>(name);
   } else {
     return std::make_shared<DevideOp>(nullptr);
   }

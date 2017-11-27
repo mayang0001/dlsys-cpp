@@ -69,3 +69,11 @@ Node MatMulOperator(const Node& lhs, const Node& rhs,
 Node SoftmaxOperator(const Node& lhs, const Node& rhs) {
   return Operator("Softmax").CreateNode(lhs, rhs);
 }
+
+Node ZerosOperator(const Node& node) {
+  return Operator("Zeros").Create(node);
+}
+
+Node OnesOperator(const Node& node) {
+  return Operator("Ones").Create(node);
+}

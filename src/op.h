@@ -9,6 +9,7 @@
 #include "operator.h"
 
 class Node;
+
 class Op {
 public:
   Op(const std::string& op_type) : op_type_(op_type) {}
@@ -161,6 +162,42 @@ public:
 class SoftmaxOp : public Op {
 public:
   SoftmaxOp(const std::string& op_type) : Op(op_type) {}
+
+  virtual void Compute(const std::vector<Tensor>& in_tensors,
+                       std::vector<Tensor>& out_tensors) override {
+  }
+
+  virtual void Infer(const std::vector<TensorShape>& in_shapes, 
+                     std::vector<TensorShape>& out_shapes) override {
+  }
+
+  virtual void Gradient(const Node& in_grad, 
+                        std::vector<Node>& out_grads) override {
+  
+  }
+};
+
+class ZerosOp : public Op {
+public:
+  ZerosOp(const std::string& op_type) : Op(op_type) {}
+
+  virtual void Compute(const std::vector<Tensor>& in_tensors,
+                       std::vector<Tensor>& out_tensors) override {
+  }
+
+  virtual void Infer(const std::vector<TensorShape>& in_shapes, 
+                     std::vector<TensorShape>& out_shapes) override {
+  }
+
+  virtual void Gradient(const Node& in_grad, 
+                        std::vector<Node>& out_grads) override {
+  
+  }
+};
+
+class OnesOp : public Op {
+public:
+  OnesOp(const std::string& op_type) : Op(op_type) {}
 
   virtual void Compute(const std::vector<Tensor>& in_tensors,
                        std::vector<Tensor>& out_tensors) override {

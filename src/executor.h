@@ -38,7 +38,9 @@ public:
     }
   }
 
-  void Gradient(const std::vector<Node>& inputs) {
+  void Gradient(const output_node, 
+                const std::vector<Node>& inputs, 
+                std::vector<Node>& outputs) {
     Node node("grad");
     for (auto iter = topo_orders_.rbegin(); iter != topo_orders_.rend(); iter++) {
       std::vector<Node> out_grads;

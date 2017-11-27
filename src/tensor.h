@@ -51,6 +51,7 @@ public:
 
   const TensorShape& GetTensorShape() const { return shape_; }
   const Context& GetContext() const { return ctx_; }
+
   float* GetHandle() { return handle_; }
   const float* GetHandle() const { return handle_; }
 

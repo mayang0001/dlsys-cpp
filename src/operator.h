@@ -34,4 +34,7 @@ Node MatMulOperator(const Node& lhs, const Node& rhs);
 
 Node SoftmaxOperator(const Node& lhs, const Node& rhs);
 
+Node ZerosOperator(const Node& node);
+
+Node OnesOperator(const Node& node);
 #endif
