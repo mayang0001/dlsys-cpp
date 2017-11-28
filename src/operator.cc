@@ -71,9 +71,9 @@ Node SoftmaxOperator(const Node& lhs, const Node& rhs) {
 }
 
 Node ZerosOperator(const Node& node) {
-  return Operator("Zeros").Create(node);
+  return Operator("Zeros").CreateNode(node);
 }
 
 Node OnesOperator(const Node& node) {
-  return Operator("Ones").Create(node);
+  return Operator("Ones").CreateNode(node);
 }

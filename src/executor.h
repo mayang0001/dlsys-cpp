@@ -38,10 +38,24 @@ public:
     }
   }
 
-  void Gradient(const output_node, 
+  void Gradient(const Node& output_node, 
                 const std::vector<Node>& inputs, 
                 std::vector<Node>& outputs) {
-    Node node("grad");
+    // A map for node -> grads
+    std::unordered_map<Node, std::vector<Node>> node_to_grads;
+
+    auto reduce_sum_by_node = [node_to_grads] (const Node& node) {
+      std::vector<Node>& grads = node_to_grads[node];
+      if (grads.size() == 1) {
+        return;
+      } else {
+        for (int i = 1; i < grads.size(); i++) {
+          grads[0] += grads[i];
+        }
+      }
+    };
+
+    Node node = OnesOperator(output_node);
     for (auto iter = topo_orders_.rbegin(); iter != topo_orders_.rend(); iter++) {
       std::vector<Node> out_grads;
       iter->GetOp()->Gradient(node, out_grads);

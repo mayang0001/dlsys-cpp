@@ -27,6 +27,8 @@ int main() {
   feed_dicts[node_a] = tensor_a;
   feed_dicts[node_b] = tensor_b;
   feed_dicts[node_c] = tensor_c;
+  std::vector<Node> out_grads;
+  exec.Gradient(node_e, {node_a, node_b}, out_grads);
   exec.Run(feed_dicts);
   feed_dicts[node_e].Debug();
   delete[] src;
