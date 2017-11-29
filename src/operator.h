@@ -37,4 +37,13 @@ Node SoftmaxOperator(const Node& lhs, const Node& rhs);
 Node ZerosOperator(const Node& node);
 
 Node OnesOperator(const Node& node);
+
+Node ReduceSumAxisZeroOperator(const Node& node);
+
+Node BroadCastToOperator(const Node& node);
+
+Node SoftmaxOperator(const Node& node);
+
+Node SoftmaxCrossEntropyOperator(const Node& node);
+
 #endif

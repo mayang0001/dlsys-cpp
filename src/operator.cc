@@ -77,3 +77,19 @@ Node ZerosOperator(const Node& node) {
 Node OnesOperator(const Node& node) {
   return Operator("Ones").CreateNode(node);
 }
+
+Node ReduceSumAxisZeroOperator(const Node& node) {
+  return Operator("ReduceSumAxisZero").CreateNode(node);
+}
+
+Node BroadCastToOperator(const Node& node) {
+  return Operator("BroadCastTo").CreateNode(node);
+}
+
+Node SoftmaxOperator(const Node& node) {
+  return Operator("Softmax").CreateNode(node);
+}
+
+Node SoftmaxCrossEntropyOperator(const Node& node) {
+  return Operator("SoftmaxCrossEntropy").CreateNode(node);
+}

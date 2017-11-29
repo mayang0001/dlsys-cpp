@@ -159,24 +159,6 @@ public:
   }
 };
 
-class SoftmaxOp : public Op {
-public:
-  SoftmaxOp(const std::string& op_type) : Op(op_type) {}
-
-  virtual void Compute(const std::vector<Tensor>& in_tensors,
-                       std::vector<Tensor>& out_tensors) override {
-  }
-
-  virtual void Infer(const std::vector<TensorShape>& in_shapes, 
-                     std::vector<TensorShape>& out_shapes) override {
-  }
-
-  virtual void Gradient(const Node& in_grad, 
-                        std::vector<Node>& out_grads) override {
-  
-  }
-};
-
 class ZerosOp : public Op {
 public:
   ZerosOp(const std::string& op_type) : Op(op_type) {}
@@ -198,6 +180,78 @@ public:
 class OnesOp : public Op {
 public:
   OnesOp(const std::string& op_type) : Op(op_type) {}
+
+  virtual void Compute(const std::vector<Tensor>& in_tensors,
+                       std::vector<Tensor>& out_tensors) override {
+  }
+
+  virtual void Infer(const std::vector<TensorShape>& in_shapes, 
+                     std::vector<TensorShape>& out_shapes) override {
+  }
+
+  virtual void Gradient(const Node& in_grad, 
+                        std::vector<Node>& out_grads) override {
+  
+  }
+};
+
+class ReduceSumAxisZeroOp : public Op {
+public:
+  ReduceSumAxisZeroOp(const std::string& op_type) : Op(op_type) {}
+
+  virtual void Compute(const std::vector<Tensor>& in_tensors,
+                       std::vector<Tensor>& out_tensors) override {
+  }
+
+  virtual void Infer(const std::vector<TensorShape>& in_shapes, 
+                     std::vector<TensorShape>& out_shapes) override {
+  }
+
+  virtual void Gradient(const Node& in_grad, 
+                        std::vector<Node>& out_grads) override {
+  
+  }
+};
+
+class BroadCastToOp : public Op {
+public:
+  BroadCastToOp(const std::string& op_type) : Op(op_type) {}
+
+  virtual void Compute(const std::vector<Tensor>& in_tensors,
+                       std::vector<Tensor>& out_tensors) override {
+  }
+
+  virtual void Infer(const std::vector<TensorShape>& in_shapes, 
+                     std::vector<TensorShape>& out_shapes) override {
+  }
+
+  virtual void Gradient(const Node& in_grad, 
+                        std::vector<Node>& out_grads) override {
+  
+  }
+};
+
+class SoftmaxOp : public Op {
+public:
+  SoftmaxOp(const std::string& op_type) : Op(op_type) {}
+
+  virtual void Compute(const std::vector<Tensor>& in_tensors,
+                       std::vector<Tensor>& out_tensors) override {
+  }
+
+  virtual void Infer(const std::vector<TensorShape>& in_shapes, 
+                     std::vector<TensorShape>& out_shapes) override {
+  }
+
+  virtual void Gradient(const Node& in_grad, 
+                        std::vector<Node>& out_grads) override {
+  
+  }
+};
+
+class SoftmaxCrossEntropyOp : public Op {
+public:
+  SoftmaxCrossEntropyOp(const std::string& op_type) : Op(op_type) {}
 
   virtual void Compute(const std::vector<Tensor>& in_tensors,
                        std::vector<Tensor>& out_tensors) override {
