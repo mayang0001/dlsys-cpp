@@ -4,6 +4,7 @@
 #include <functional>
 #include <unordered_map>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include "op.h"
 
@@ -33,6 +34,11 @@ public:
   Node operator*(const Node& rhs) const;
   Node operator/(const Node& rhs) const;
 
+  Node& operator+=(const Node& rhs);
+  Node& operator-=(const Node& rhs);
+  Node& operator*=(const Node& rhs);
+  Node& operator/=(const Node& rhs);
+
   void GetInputNodes(std::vector<Node>& input_nodes) const {
     input_nodes = inputs_;
   }
@@ -50,9 +56,26 @@ public:
     }
   }
 
-  template<typename T>
+  template <typename T>
   void SetParam(const std::string& key, const T& val) {
-  
+    std::string val_str;
+    std::stringstream ss;
+    ss << val;
+    ss >> val_str;   
+    attrs_[key] = val_str;
+  }
+
+  template <typename T>
+  bool GetParam(const std::string& key, T& val) {
+    auto iter = attrs_.find(key);
+    if (iter != attrs_.end()) {
+      std::stringstream ss;
+      ss << iter->second;
+      ss >> val; 
+      return true;
+    } else {
+      return false;
+    }
   }
 
   void SetOp(std::shared_ptr<Op> op) {

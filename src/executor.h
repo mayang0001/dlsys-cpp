@@ -45,7 +45,11 @@ public:
     std::unordered_map<Node, std::vector<Node>> node_to_grads;
 
     auto reduce_sum_by_node = [node_to_grads] (const Node& node) {
-      std::vector<Node>& grads = node_to_grads[node];
+      auto iter = node_to_grads.find(node);
+      if (iter == node_to_grads.end()) return;
+
+      //std::vector<Node>& grads = iter->second;
+      auto grads = iter->second;
       if (grads.size() == 1) {
         return;
       } else {

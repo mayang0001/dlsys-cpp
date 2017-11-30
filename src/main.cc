@@ -1,7 +1,10 @@
 #include <iostream>
+#include <sstream>
+#include <string>
 #include <unordered_map>
 #include "executor.h"
 #include "operator.h"
+
 
 int main() {
   float* src = new float[10 * 10];

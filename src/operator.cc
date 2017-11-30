@@ -10,8 +10,28 @@ inline Operator::Operator(const std::string& name) {
 }
 
 template <typename T>
+inline Operator Operator::PushInput(T val) {
+  inputs_.push_back(val); 
+  return *this;
+} 
+
+// TODO if typename... can be Node...
+template <typename T, typename... Args>
+inline Operator Operator::PushInput(T val, Args... args) {
+  inputs_.push_back(val);
+  if (sizeof...(args) > 0) {
+    PushInput(...args); 
+  }
+  return *this;
+}
+
+template <typename T>
 inline Operator Operator::SetParam(const std::string& name, const T& val) {
-  // TODO
+  stringstream ss;
+  ss << val;
+  std::string val_str;
+  ss >> val_str;
+  attrs_[name] = val_str;
   return *this;
 }
 
@@ -52,19 +72,13 @@ Node DevideOperator(const Node& lhs, const Node& rhs) {
   return Operator("Devide").CreateNode(lhs, rhs);
 }
 
-Node MatMulOperator(const Node& lhs, const Node& rhs) {
-  return Operator("MatMul").CreateNode(lhs, rhs);
-}
-
-/***
-// TODO
 Node MatMulOperator(const Node& lhs, const Node& rhs, 
-                    bool tanspose_a = false, bool transpose_b = false) {
+                    bool trans_a, bool trans_b) {
   Node node = Operator("MatMul").CreateNode(lhs, rhs);
-  node.SetParam("transpose_a", transpose_a);
-  node.SetParam("transpose_b", transpose_b);
+  node.SetParam("trans_a", trans_a);
+  node.SetParam("trans_b", trans_b);
+  return node;
 }
-***/
 
 Node SoftmaxOperator(const Node& lhs, const Node& rhs) {
   return Operator("Softmax").CreateNode(lhs, rhs);

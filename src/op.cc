@@ -1,17 +1,31 @@
 #include <memory>
+#include "node.h"
 #include "op.h"
+
+void AddOp::Gradient(const Node& in_grad, std::vector<Node>& out_grads) {
+  out_grads = {in_grad, in_grad};
+}
+
+void MinusOp::Gradient(const Node& in_grad, std::vector<Node>& out_grads) {
+  out_grads = {in_grad, in_grad};
+}
+
+// TODO
+void MultiplyOp::Gradient(const Node& in_grad, std::vector<Node>& out_grads) {
+  //out_grads = {in_grad * node.input(1), in_grad * node.input(0)};
+}
 
 std::shared_ptr<Op> Op::Create(const std::string& name) {
   if (name == "Add") {
     return std::make_shared<AddOp>(name);
   } else if (name == "Minus") {
     return std::make_shared<MinusOp>(name);
-  } else if (name == "MatMul") {
-    return std::make_shared<MatMulOp>(name);
   } else if (name == "Multiply"){
     return std::make_shared<MultiplyOp>(name);
   } else if (name == "Devide"){
     return std::make_shared<DevideOp>(name);
+  } else if (name == "MatMul") {
+    return std::make_shared<MatMulOp>(name);
   } else if (name == "Zeros"){
     return std::make_shared<ZerosOp>(name);
   } else if (name == "Ones"){
@@ -28,3 +42,4 @@ std::shared_ptr<Op> Op::Create(const std::string& name) {
     return std::make_shared<DevideOp>(nullptr);
   }
 }
+

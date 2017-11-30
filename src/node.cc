@@ -16,3 +16,24 @@ Node Node::operator*(const Node& rhs) const {
 Node Node::operator/(const Node& rhs) const {
   return DevideOperator(*this, rhs);
 }
+
+Node& Node::operator+=(const Node& rhs) {
+  *this = *this + rhs;
+  return *this; 
+}
+
+Node& Node::operator-=(const Node& rhs) {
+  *this = *this - rhs;
+  return *this; 
+}
+
+Node& Node::operator*=(const Node& rhs) {
+  *this = *this * rhs;
+  return *this; 
+}
+
+Node& Node::operator/=(const Node& rhs) {
+  *this = *this / rhs;
+  return *this; 
+}
+

@@ -12,12 +12,19 @@ public:
   explicit Operator(const std::string& name); 
 
   template <typename T>
+  Operator PushInput(T val);
+
+  template <typename T, typename... Args>
+  Operator PushInput(T val, Args... args);
+
+  template <typename T>
   Operator SetParam(const std::string& name, const T& val);
 
   template <typename... Args>
   Node CreateNode(Args... args);
 
 private:
+  std::vector<Node> inputs_;
   std::unordered_map<std::string, std::string> attrs_;
   std::shared_ptr<Op> op_;
 };
@@ -30,7 +37,8 @@ Node MultiplyOperator(const Node& lhs, const Node& rhs);
 
 Node DevideOperator(const Node& lhs, const Node& rhs);
 
-Node MatMulOperator(const Node& lhs, const Node& rhs);
+Node MatMulOperator(const Node& lhs, const Node& rhs, 
+                    bool trans_a = false, bool trans_b = false);
 
 Node SoftmaxOperator(const Node& lhs, const Node& rhs);
 
