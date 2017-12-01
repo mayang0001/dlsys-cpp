@@ -155,9 +155,8 @@ public:
 
   virtual void Gradient(const Node& node, 
                         const Node& in_grad, 
-                        std::vector<Node>& out_grads) override {
+                        std::vector<Node>& out_grads) override;
   
-  }
 };
 
 class ZerosOp : public Op {
@@ -178,9 +177,8 @@ public:
 
   virtual void Gradient(const Node& node,
                         const Node& in_grad, 
-                        std::vector<Node>& out_grads) override {
+                        std::vector<Node>& out_grads) override;
   
-  }
 };
 
 class OnesOp : public Op {
@@ -201,9 +199,8 @@ public:
 
   virtual void Gradient(const Node& node, 
                         const Node& in_grad, 
-                        std::vector<Node>& out_grads) override {
+                        std::vector<Node>& out_grads) override;
   
-  }
 };
 
 class ReduceSumAxisZeroOp : public Op {
@@ -223,9 +220,8 @@ public:
 
   virtual void Gradient(const Node& node, 
                         const Node& in_grad, 
-                        std::vector<Node>& out_grads) override {
+                        std::vector<Node>& out_grads) override;
   
-  }
 };
 
 class BroadCastToOp : public Op {
@@ -243,9 +239,8 @@ public:
 
   virtual void Gradient(const Node& node,
                         const Node& in_grad, 
-                        std::vector<Node>& out_grads) override {
+                        std::vector<Node>& out_grads) override;
   
-  }
 };
 
 class SoftmaxOp : public Op {
@@ -263,9 +258,8 @@ public:
 
   virtual void Gradient(const Node& node, 
                         const Node& in_grad, 
-                        std::vector<Node>& out_grads) override {
-  
-  }
+                        std::vector<Node>& out_grads) override;
+
 };
 
 class SoftmaxCrossEntropyOp : public Op {
@@ -283,9 +277,8 @@ public:
 
   virtual void Gradient(const Node& ndoe, 
                         const Node& in_grad, 
-                        std::vector<Node>& out_grads) override {
+                        std::vector<Node>& out_grads) override;
   
-  }
 };
 
 #endif

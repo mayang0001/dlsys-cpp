@@ -66,7 +66,7 @@ public:
   }
 
   template <typename T>
-  bool GetParam(const std::string& key, T& val) {
+  bool GetParam(const std::string& key, T& val) const {
     auto iter = attrs_.find(key);
     if (iter != attrs_.end()) {
       std::stringstream ss;

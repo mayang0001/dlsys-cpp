@@ -32,6 +32,10 @@ int main() {
   feed_dicts[node_c] = tensor_c;
   std::vector<Node> out_grads;
   exec.Gradient(node_e, {node_a, node_b}, out_grads);
+  for (auto grad : out_grads) {
+    std::cout << grad.name() << std::endl;
+  }
+  std::cout << "gradient has finished" << std::endl;
   exec.Run(feed_dicts);
   feed_dicts[node_e].Debug();
   delete[] src;

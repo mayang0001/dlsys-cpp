@@ -44,25 +44,33 @@ public:
     // A map for node -> grads
     std::unordered_map<Node, std::vector<Node>> node_to_grads;
 
-    auto reduce_sum_by_node = [node_to_grads] (const Node& node) {
+    auto reduce_sum_by_node = [&node_to_grads] (const Node& node) {
       auto iter = node_to_grads.find(node);
-      if (iter == node_to_grads.end()) return;
-
-      //std::vector<Node>& grads = iter->second;
+      // TODO if we not find node
       auto grads = iter->second;
-      if (grads.size() == 1) {
-        return;
-      } else {
+      if (grads.size() > 1) {
         for (int i = 1; i < grads.size(); i++) {
           grads[0] += grads[i];
         }
       }
+      return grads[0];
     };
 
-    Node node = OnesOperator(output_node);
+    node_to_grads[output_node].push_back(OnesOperator(output_node));
     for (auto iter = topo_orders_.rbegin(); iter != topo_orders_.rend(); iter++) {
+      Node in_grad = reduce_sum_by_node(*iter);
       std::vector<Node> out_grads;
-      iter->GetOp()->Gradient(node, out_grads);
+      if (iter->GetOp() != nullptr)
+        iter->GetOp()->Gradient(*iter, in_grad, out_grads);
+      std::vector<Node> inputs;
+      iter->GetInputNodes(inputs);
+      for (int i = 0; i < inputs.size(); i++) {
+        node_to_grads[inputs[i]].push_back(out_grads[i]);
+      }
+    }
+
+    for (auto node : inputs) {
+      outputs.push_back(reduce_sum_by_node(node));
     }
   }
 

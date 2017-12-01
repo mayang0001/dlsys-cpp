@@ -20,14 +20,14 @@ template <typename T, typename... Args>
 inline Operator Operator::PushInput(T val, Args... args) {
   inputs_.push_back(val);
   if (sizeof...(args) > 0) {
-    PushInput(...args); 
+    PushInput(args...); 
   }
   return *this;
 }
 
 template <typename T>
 inline Operator Operator::SetParam(const std::string& name, const T& val) {
-  stringstream ss;
+  std::stringstream ss;
   ss << val;
   std::string val_str;
   ss >> val_str;
@@ -96,8 +96,8 @@ Node ReduceSumAxisZeroOperator(const Node& node) {
   return Operator("ReduceSumAxisZero").CreateNode(node);
 }
 
-Node BroadCastToOperator(const Node& node) {
-  return Operator("BroadCastTo").CreateNode(node);
+Node BroadCastToOperator(const Node& from, const Node& to) {
+  return Operator("BroadCastTo").CreateNode(from, to);
 }
 
 Node SoftmaxOperator(const Node& node) {

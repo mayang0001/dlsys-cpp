@@ -48,7 +48,7 @@ Node OnesOperator(const Node& node);
 
 Node ReduceSumAxisZeroOperator(const Node& node);
 
-Node BroadCastToOperator(const Node& node);
+Node BroadCastToOperator(const Node& from, const Node& to);
 
 Node SoftmaxOperator(const Node& node);
 
