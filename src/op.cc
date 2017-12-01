@@ -12,6 +12,12 @@ void AddOp::Compute(const Node& node,
   }
 }
 
+void AddOp::Infer(const Node& node,
+                  const std::vector<TensorShape>& in_shapes,
+                  std::vector<TensorShape>& out_shapes) {
+  out_shapes = {in_shapes[0]};
+}
+
 void AddOp::Gradient(const Node& node, 
                      const Node& in_grad, 
                      std::vector<Node>& out_grads) {
@@ -28,6 +34,12 @@ void MinusOp::Compute(const Node& node,
   }
 }
 
+void MinusOp::Infer(const Node& node,
+                    const std::vector<TensorShape>& in_shapes,
+                    std::vector<TensorShape>& out_shapes) {
+  out_shapes = {in_shapes[0]};
+}
+
 void MinusOp::Gradient(const Node& node,
                        const Node& in_grad, 
                        std::vector<Node>& out_grads) {
@@ -42,6 +54,12 @@ void MultiplyOp::Compute(const Node& node,
     out_tensors[0].GetHandle()[i] = 
         in_tensors[0].GetHandle()[i] * in_tensors[1].GetHandle()[i];
   }
+}
+
+void MultiplyOp::Infer(const Node& node,
+                       const std::vector<TensorShape>& in_shapes,
+                       std::vector<TensorShape>& out_shapes) {
+  out_shapes = {in_shapes[0]};
 }
 
 void MultiplyOp::Gradient(const Node& node, 
@@ -62,6 +80,12 @@ void DevideOp::Compute(const Node& node,
   }
 }
 
+void DevideOp::Infer(const Node& node,
+                    const std::vector<TensorShape>& in_shapes,
+                    std::vector<TensorShape>& out_shapes) {
+  out_shapes = {in_shapes[0]};
+}
+
 void DevideOp::Gradient(const Node& node, 
                         const Node& in_grad, 
                         std::vector<Node>& out_grads) {
@@ -71,6 +95,22 @@ void DevideOp::Gradient(const Node& node,
 void MatMulOp::Compute(const Node& node,
                        const std::vector<Tensor>& in_tensors, 
                        std::vector<Tensor>& out_tensors) {
+  bool trans_a;
+  node.GetAttr("trans_a", trans_a);
+  bool trans_b;
+  node.GetAttr("trans_b", trans_b);
+}
+
+void MatMulOp::Infer(const Node& node,
+                     const std::vector<TensorShape>& in_shapes,
+                     std::vector<TensorShape>& out_shapes) {
+  bool trans_a;
+  node.GetAttr("trans_a", trans_a);
+  bool trans_b;
+  node.GetAttr("trans_b", trans_b);
+  int m = trans_a ? in_shapes[0].dim(1) : in_shapes[0].dim(0);
+  int n = trans_b ? in_shapes[1].dim(0) : in_shapes[1].dim(1);
+  out_shapes = {TensorShape(m, n)};
 }
 
 void MatMulOp::Gradient(const Node& node,
@@ -101,12 +141,19 @@ void MatMulOp::Gradient(const Node& node,
     out_grads = {lhs_grad, rhs_grad};
   }
 }
+
 void ZerosOp::Compute(const Node& node,
                       const std::vector<Tensor>& in_tensors,
                       std::vector<Tensor>& out_tensors) {
   for (int i = 0; i < in_tensors[0].NumElements(); i++) {
     out_tensors[0].GetHandle()[i] = 0;
   }
+}
+
+void ZerosOp::Infer(const Node& node,
+                    const std::vector<TensorShape>& in_shapes,
+                    std::vector<TensorShape>& out_shapes) {
+  out_shapes = {in_shapes[0]};
 }
 
 void ZerosOp::Gradient(const Node& node, 
@@ -118,11 +165,17 @@ void ZerosOp::Gradient(const Node& node,
 }
 
 void OnesOp::Compute(const Node& node,
-                      const std::vector<Tensor>& in_tensors,
-                      std::vector<Tensor>& out_tensors) {
+                     const std::vector<Tensor>& in_tensors,
+                     std::vector<Tensor>& out_tensors) {
   for (int i = 0; i < in_tensors[0].NumElements(); i++) {
     out_tensors[0].GetHandle()[i] = 1;
   }
+}
+
+void OnesOp::Infer(const Node& node,
+                   const std::vector<TensorShape>& in_shapes,
+                   std::vector<TensorShape>& out_shapes) {
+  out_shapes = {in_shapes[0]};
 }
 
 void OnesOp::Gradient(const Node& node,
@@ -138,6 +191,11 @@ void ReduceSumAxisZeroOp::Compute(const Node& node,
                                   std::vector<Tensor>& out_tensors) {
 }
 
+void ReduceSumAxisZeroOp::Infer(const Node& node,
+                    const std::vector<TensorShape>& in_shapes,
+                    std::vector<TensorShape>& out_shapes) {
+}
+
 void ReduceSumAxisZeroOp::Gradient(const Node& node, 
                                    const Node& in_grad,
                                    std::vector<Node>& out_grads) {
@@ -147,8 +205,13 @@ void ReduceSumAxisZeroOp::Gradient(const Node& node,
 }
 
 void BroadCastToOp::Compute(const Node& node,
-                                  const std::vector<Tensor>& in_tensors,
-                                  std::vector<Tensor>& out_tensors) {
+                            const std::vector<Tensor>& in_tensors,
+                            std::vector<Tensor>& out_tensors) {
+}
+
+void BroadCastToOp::Infer(const Node& node,
+                          const std::vector<TensorShape>& in_shapes,
+                          std::vector<TensorShape>& out_shapes) {
 }
 
 void BroadCastToOp::Gradient(const Node& node,
@@ -165,6 +228,12 @@ void SoftmaxOp::Compute(const Node& node,
                         const std::vector<Tensor>& in_tensors,
                         std::vector<Tensor>& out_tensors) {
 }
+
+void SoftmaxOp::Infer(const Node& node,
+                      const std::vector<TensorShape>& in_shapes,
+                      std::vector<TensorShape>& out_shapes) {
+}
+
 void SoftmaxOp::Gradient(const Node& node,
                          const Node& in_grad,
                          std::vector<Node>& out_grads) {
@@ -174,6 +243,11 @@ void SoftmaxOp::Gradient(const Node& node,
 void SoftmaxCrossEntropyOp::Compute(const Node& node,
                                     const std::vector<Tensor>& in_tensors,
                                     std::vector<Tensor>& out_tensors) {
+}
+
+void SoftmaxCrossEntropyOp::Infer(const Node& node,
+                                  const std::vector<TensorShape>& in_shapes,
+                                  std::vector<TensorShape>& out_shapes) {
 }
 
 void SoftmaxCrossEntropyOp::Gradient(const Node& node, 

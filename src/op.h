@@ -44,9 +44,7 @@ public:
 
   virtual void Infer(const Node& node, 
                      const std::vector<TensorShape>& in_shapes, 
-                     std::vector<TensorShape>& out_shapes) override {
-    out_shapes.push_back(in_shapes[0]);
-  }
+                     std::vector<TensorShape>& out_shapes) override;
 
   virtual void Gradient(const Node& node,
                         const Node& in_grad, 
@@ -63,9 +61,7 @@ public:
 
   virtual void Infer(const Node& node, 
                      const std::vector<TensorShape>& in_shapes, 
-                     std::vector<TensorShape>& out_shapes) override {
-    out_shapes.push_back(in_shapes[0]);
-  }
+                     std::vector<TensorShape>& out_shapes) override;
 
   virtual void Gradient(const Node& node,
                         const Node& in_grad, 
@@ -82,9 +78,7 @@ public:
 
   virtual void Infer(const Node& node, 
                      const std::vector<TensorShape>& in_shapes, 
-                     std::vector<TensorShape>& out_shapes) override {
-    out_shapes.push_back(in_shapes[0]);
-  }
+                     std::vector<TensorShape>& out_shapes) override;
 
   virtual void Gradient(const Node& node, 
                         const Node& in_grad, 
@@ -101,9 +95,7 @@ public:
 
   virtual void Infer(const Node& node, 
                      const std::vector<TensorShape>& in_shapes, 
-                     std::vector<TensorShape>& out_shapes) override {
-    out_shapes.push_back(in_shapes[0]);
-  }
+                     std::vector<TensorShape>& out_shapes) override;
 
   virtual void Gradient(const Node& node,
                         const Node& in_grad, 
@@ -121,10 +113,7 @@ public:
 
   virtual void Infer(const Node& node, 
                      const std::vector<TensorShape>& in_shapes, 
-                     std::vector<TensorShape>& out_shapes) override {
-    TensorShape out_shape(in_shapes[0].dim_size(0), in_shapes[1].dim_size(1));
-    out_shapes.push_back(out_shape);
-  }
+                     std::vector<TensorShape>& out_shapes) override;
 
   virtual void Gradient(const Node& node, 
                         const Node& in_grad, 
@@ -142,9 +131,7 @@ public:
 
   virtual void Infer(const Node& node, 
                      const std::vector<TensorShape>& in_shapes, 
-                     std::vector<TensorShape>& out_shapes) override {
-    out_shapes[0] = in_shapes[0];
-  }
+                     std::vector<TensorShape>& out_shapes) override;
 
   virtual void Gradient(const Node& node,
                         const Node& in_grad, 
@@ -162,9 +149,7 @@ public:
 
   virtual void Infer(const Node& node, 
                      const std::vector<TensorShape>& in_shapes, 
-                     std::vector<TensorShape>& out_shapes) override {
-    out_shapes[0] = in_shapes[0];
-  }
+                     std::vector<TensorShape>& out_shapes) override;
 
   virtual void Gradient(const Node& node, 
                         const Node& in_grad, 
@@ -182,11 +167,7 @@ public:
 
   virtual void Infer(const Node& node, 
                      const std::vector<TensorShape>& in_shapes, 
-                     std::vector<TensorShape>& out_shapes) override {
-    for (int i = 1; i < in_shapes[0].dims(); i++) {
-      out_shapes[0].AppendDim(in_shapes[0].dim_size(i));
-    }
-  }
+                     std::vector<TensorShape>& out_shapes) override;
 
   virtual void Gradient(const Node& node, 
                         const Node& in_grad, 
@@ -204,9 +185,7 @@ public:
 
   virtual void Infer(const Node& node, 
                      const std::vector<TensorShape>& in_shapes, 
-                     std::vector<TensorShape>& out_shapes) override {
-    out_shapes[0] = in_shapes[0];
-  }
+                     std::vector<TensorShape>& out_shapes) override;
 
   virtual void Gradient(const Node& node,
                         const Node& in_grad, 
@@ -224,9 +203,7 @@ public:
 
   virtual void Infer(const Node& node, 
                      const std::vector<TensorShape>& in_shapes, 
-                     std::vector<TensorShape>& out_shapes) override {
-    out_shapes[0] = in_shapes[0];
-  }
+                     std::vector<TensorShape>& out_shapes) override;
 
   virtual void Gradient(const Node& node, 
                         const Node& in_grad, 
@@ -244,9 +221,7 @@ public:
 
   virtual void Infer(const Node& node, 
                      const std::vector<TensorShape>& in_shapes, 
-                     std::vector<TensorShape>& out_shapes) override {
-    out_shapes[0] = TensorShape(1);
-  }
+                     std::vector<TensorShape>& out_shapes) override;
 
   virtual void Gradient(const Node& ndoe, 
                         const Node& in_grad, 
