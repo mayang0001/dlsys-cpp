@@ -30,10 +30,10 @@ public:
       }
 
       std::vector<TensorShape> out_shapes;
-      node.GetOp()->Infer(input_shapes, out_shapes);
+      node.GetOp()->Infer(node, input_shapes, out_shapes);
       std::vector<Tensor> out_tensors = {Tensor(out_shapes[0], Context::cpu())};
 
-      node.GetOp()->Compute(input_tensors, out_tensors);
+      node.GetOp()->Compute(node, input_tensors, out_tensors);
       node_to_tensor[node] = out_tensors[0];
     }
   }

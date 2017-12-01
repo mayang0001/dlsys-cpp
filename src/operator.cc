@@ -75,8 +75,8 @@ Node DevideOperator(const Node& lhs, const Node& rhs) {
 Node MatMulOperator(const Node& lhs, const Node& rhs, 
                     bool trans_a, bool trans_b) {
   Node node = Operator("MatMul").CreateNode(lhs, rhs);
-  node.SetParam("trans_a", trans_a);
-  node.SetParam("trans_b", trans_b);
+  node.SetAttr("trans_a", trans_a);
+  node.SetAttr("trans_b", trans_b);
   return node;
 }
 

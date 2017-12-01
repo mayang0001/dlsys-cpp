@@ -57,7 +57,7 @@ public:
   }
 
   template <typename T>
-  void SetParam(const std::string& key, const T& val) {
+  void SetAttr(const std::string& key, const T& val) {
     std::string val_str;
     std::stringstream ss;
     ss << val;
@@ -66,7 +66,7 @@ public:
   }
 
   template <typename T>
-  bool GetParam(const std::string& key, T& val) const {
+  bool GetAttr(const std::string& key, T& val) const {
     auto iter = attrs_.find(key);
     if (iter != attrs_.end()) {
       std::stringstream ss;
