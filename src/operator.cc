@@ -68,6 +68,13 @@ Node MinusOperator(const Node& lhs, const Node& rhs) {
 Node MultiplyOperator(const Node& lhs, const Node& rhs) {
   return Operator("Multiply").CreateNode(lhs, rhs);
 }
+
+Node MultiplyByConstOperator(const Node& lhs, float const_val) {
+  Node node = Operator("MultiplyByConst").CreateNode(lhs);
+  node.SetAttr("const_val", const_val);
+  return node;
+}
+
 Node DevideOperator(const Node& lhs, const Node& rhs) {
   return Operator("Devide").CreateNode(lhs, rhs);
 }

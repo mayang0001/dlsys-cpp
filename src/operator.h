@@ -35,6 +35,8 @@ Node MinusOperator(const Node& lhs, const Node& rhs);
 
 Node MultiplyOperator(const Node& lhs, const Node& rhs);
 
+Node MultiplyByConstOperator(const Node& lhs, float const_val);
+
 Node DevideOperator(const Node& lhs, const Node& rhs);
 
 Node MatMulOperator(const Node& lhs, const Node& rhs, 

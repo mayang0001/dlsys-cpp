@@ -17,6 +17,10 @@ Node Node::operator/(const Node& rhs) const {
   return DevideOperator(*this, rhs);
 }
 
+Node Node::operator*(float const_val) const {
+  return MultiplyByConstOperator(*this, const_val);
+}
+
 Node& Node::operator+=(const Node& rhs) {
   *this = *this + rhs;
   return *this; 
