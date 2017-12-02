@@ -1,9 +1,11 @@
 #ifndef OPERATOR_H_
 #define OPERATOR_H_
 
+#include <memory>
 #include <vector>
 #include <string>
 #include <unordered_map>
+
 class Op;
 class Node;
 

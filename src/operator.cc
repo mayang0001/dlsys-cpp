@@ -51,9 +51,10 @@ inline Operator Operator::SetParam<Tensor>(const std::string& name,
 
 template <typename... Args>
 inline Node Operator::CreateNode(Args... args) {
-  Node node(op_->GetOpType());
+  Node node;
   node.SetOp(op_);
   node.PushInput(args...);
+  node.SetName();
   return node; 
 }
 

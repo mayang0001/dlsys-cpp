@@ -10,6 +10,8 @@
 
 class Node {
 public:
+  Node() = default;
+
   explicit Node(const std::string& name) : name_(name) {}
 
   Node(const Node& rhs) 
@@ -29,9 +31,7 @@ public:
     return *this;
   }
 
-  ~Node() {
-  
-  }
+  ~Node() {}
 
   Node operator+(const Node& rhs) const;
   Node operator-(const Node& rhs) const;
@@ -86,6 +86,15 @@ public:
 
   void SetOp(std::shared_ptr<Op> op) {
     op_ = op;
+  }
+
+  void SetName() {
+    name_ = op_->GetOpType() + "(";
+    for (auto input : inputs_) {
+      name_ += (input.name() + ",");
+    }
+    name_.resize(name_.size() - 1);
+    name_ += ")";
   }
 
   const std::string& name() const { return name_; }

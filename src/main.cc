@@ -7,36 +7,34 @@
 
 
 int main() {
-  float* src = new float[10 * 10];
-  for (int i = 0; i < 100; i++) {
-    src[i] = 1;
-  }
+  Node weights("weights");
+  Node bias("bias");
 
+  Node x("x");
+  Node y_("y_");
+  Node z = MatMulOperator(x, weights);
+  Node logit = z + BroadCastToOperator(bias, z);
+  Node loss = SoftmaxCrossEntropyOperator(logit, y_);
   Context ctx = Context::cpu();
-  Tensor tensor_a(TensorShape(10, 10), ctx);
-  tensor_a.SyncFromCPU(src, tensor_a.GetTensorShape().num_elements());
-  Tensor tensor_b(TensorShape(10, 10), ctx);
-  tensor_b.SyncFromCPU(src, tensor_b.GetTensorShape().num_elements());
-  Tensor tensor_c(TensorShape(10, 10), ctx);
-  tensor_c.SyncFromCPU(src, tensor_c.GetTensorShape().num_elements());
+  Executor exec(ctx, loss, {weights, bias});
 
-  Node node_a("a");
-  Node node_b("b");
-  Node node_c("c");
-  Node node_d = AddOperator(node_a, node_b);
-  Node node_e = MatMulOperator(node_c, node_d);
-  Executor exec({node_e}, ctx);
+  int size = 10;
+
+  Tensor x_val(TensorShape(size, size), ctx);
+  Tensor y_val(TensorShape(size, size), ctx);
+  Tensor w_val(TensorShape(size, size), ctx);
+  Tensor b_val(TensorShape(size, size), ctx);
   std::unordered_map<Node, Tensor> feed_dicts;
-  feed_dicts[node_a] = tensor_a;
-  feed_dicts[node_b] = tensor_b;
-  feed_dicts[node_c] = tensor_c;
-  std::vector<Node> out_grads;
-  exec.Gradient(node_e, {node_a, node_b}, out_grads);
-  for (auto grad : out_grads) {
-    std::cout << grad.name() << std::endl;
+  feed_dicts[x] = x_val;
+  feed_dicts[y_] = y_val;
+  feed_dicts[weights] = w_val;
+  feed_dicts[bias] = b_val;
+
+  std::vector<Tensor> out_vals;
+  std::vector<Tensor> grad_vals;
+  int iter_num = 1;
+  for (int i = 0; i < iter_num; i++) {
+    std::cout << i << std::endl;
+    exec.Run({loss}, out_vals, {weights, bias}, grad_vals, feed_dicts);
   }
-  std::cout << "gradient has finished" << std::endl;
-  exec.Run(feed_dicts);
-  feed_dicts[node_e].Debug();
-  delete[] src;
 }
