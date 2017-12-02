@@ -62,8 +62,20 @@ Node AddOperator(const Node& lhs, const Node& rhs) {
   return Operator("Add").CreateNode(lhs, rhs);
 }
 
+Node AddByConstOperator(const Node& lhs, float const_val) {
+  Node node = Operator("AddByConst").CreateNode(lhs);
+  node.SetAttr("const_val", const_val);
+  return node;
+}
+
 Node MinusOperator(const Node& lhs, const Node& rhs) {
   return Operator("Minus").CreateNode(lhs, rhs);
+}
+
+Node MinusByConstOperator(const Node& lhs, float const_val) {
+  Node node = Operator("MinusByConst").CreateNode(lhs);
+  node.SetAttr("const_val", const_val);
+  return node;
 }
 
 Node MultiplyOperator(const Node& lhs, const Node& rhs) {
@@ -78,6 +90,12 @@ Node MultiplyByConstOperator(const Node& lhs, float const_val) {
 
 Node DevideOperator(const Node& lhs, const Node& rhs) {
   return Operator("Devide").CreateNode(lhs, rhs);
+}
+
+Node DevideByConstOperator(const Node& lhs, float const_val) {
+  Node node = Operator("DevideByConst").CreateNode(lhs);
+  node.SetAttr("const_val", const_val);
+  return node;
 }
 
 Node MatMulOperator(const Node& lhs, const Node& rhs, 

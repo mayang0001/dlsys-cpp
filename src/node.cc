@@ -5,20 +5,32 @@ Node Node::operator+(const Node& rhs) const {
   return AddOperator(*this, rhs);
 } 
 
+Node Node::operator+(float const_val) const {
+  return AddByConstOperator(*this, const_val);
+}
+
 Node Node::operator-(const Node& rhs) const {
   return MinusOperator(*this, rhs);
+}
+
+Node Node::operator-(float const_val) const {
+  return MinusByConstOperator(*this, const_val);
 }
 
 Node Node::operator*(const Node& rhs) const {
   return MultiplyOperator(*this, rhs);
 }
 
+Node Node::operator*(float const_val) const {
+  return MultiplyByConstOperator(*this, const_val);
+}
+
 Node Node::operator/(const Node& rhs) const {
   return DevideOperator(*this, rhs);
 }
 
-Node Node::operator*(float const_val) const {
-  return MultiplyByConstOperator(*this, const_val);
+Node Node::operator/(float const_val) const {
+  return DevideByConstOperator(*this, const_val);
 }
 
 Node& Node::operator+=(const Node& rhs) {

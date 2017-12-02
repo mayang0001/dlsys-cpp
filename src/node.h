@@ -38,7 +38,10 @@ public:
   Node operator*(const Node& rhs) const;
   Node operator/(const Node& rhs) const;
   
+  Node operator+(float const_val) const;
+  Node operator-(float const_val) const;
   Node operator*(float const_val) const;
+  Node operator/(float const_val) const;
 
   Node& operator+=(const Node& rhs);
   Node& operator-=(const Node& rhs);

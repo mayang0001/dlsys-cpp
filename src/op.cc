@@ -383,14 +383,20 @@ void SoftmaxCrossEntropyOp::Gradient(const Node& node,
 std::shared_ptr<Op> Op::Create(const std::string& name) {
   if (name == "Add") {
     return std::make_shared<AddOp>(name);
+  } else if (name == "AddByConst"){
+    return std::make_shared<AddByConstOp>(name);
   } else if (name == "Minus") {
     return std::make_shared<MinusOp>(name);
+  } else if (name == "MinusByConst"){
+    return std::make_shared<MinusByConstOp>(name);
   } else if (name == "Multiply"){
     return std::make_shared<MultiplyOp>(name);
   } else if (name == "MultiplyByConst"){
     return std::make_shared<MultiplyByConstOp>(name);
   } else if (name == "Devide"){
     return std::make_shared<DevideOp>(name);
+  } else if (name == "DevideByConst"){
+    return std::make_shared<MultiplyByConstOp>(name);
   } else if (name == "MatMul") {
     return std::make_shared<MatMulOp>(name);
   } else if (name == "Zeros"){

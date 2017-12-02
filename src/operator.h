@@ -33,13 +33,19 @@ private:
 
 Node AddOperator(const Node& lhs, const Node& rhs);
 
+Node AddByConstOperator(const Node& lhs, float const_val);
+
 Node MinusOperator(const Node& lhs, const Node& rhs);
+
+Node MinusByConstOperator(const Node& lhs, float const_val);
 
 Node MultiplyOperator(const Node& lhs, const Node& rhs);
 
 Node MultiplyByConstOperator(const Node& lhs, float const_val);
 
 Node DevideOperator(const Node& lhs, const Node& rhs);
+
+Node DevideByConstOperator(const Node& lhs, float const_val);
 
 Node MatMulOperator(const Node& lhs, const Node& rhs, 
                     bool trans_a = false, bool trans_b = false);

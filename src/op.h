@@ -51,6 +51,23 @@ public:
                         std::vector<Node>& out_grads) override;
 };
 
+class AddByConstOp : public Op {
+public:
+  AddByConstOp(const std::string& op_type) : Op(op_type) {}
+
+  virtual void Compute(const Node& node, 
+                       const std::vector<Tensor>& in_tensors,
+                       std::vector<Tensor>& out_tensors) override;
+
+  virtual void Infer(const Node& node, 
+                     const std::vector<TensorShape>& in_shapes, 
+                     std::vector<TensorShape>& out_shapes) override;
+
+  virtual void Gradient(const Node& node, 
+                        const Node& in_grad, 
+                        std::vector<Node>& out_grads) override;
+};
+
 class MinusOp : public Op {
 public:
   MinusOp(const std::string& op_type) : Op(op_type) {}
@@ -64,6 +81,23 @@ public:
                      std::vector<TensorShape>& out_shapes) override;
 
   virtual void Gradient(const Node& node,
+                        const Node& in_grad, 
+                        std::vector<Node>& out_grads) override;
+};
+
+class MinusByConstOp : public Op {
+public:
+  MinusByConstOp(const std::string& op_type) : Op(op_type) {}
+
+  virtual void Compute(const Node& node, 
+                       const std::vector<Tensor>& in_tensors,
+                       std::vector<Tensor>& out_tensors) override;
+
+  virtual void Infer(const Node& node, 
+                     const std::vector<TensorShape>& in_shapes, 
+                     std::vector<TensorShape>& out_shapes) override;
+
+  virtual void Gradient(const Node& node, 
                         const Node& in_grad, 
                         std::vector<Node>& out_grads) override;
 };
@@ -115,6 +149,23 @@ public:
                      std::vector<TensorShape>& out_shapes) override;
 
   virtual void Gradient(const Node& node,
+                        const Node& in_grad, 
+                        std::vector<Node>& out_grads) override;
+};
+
+class DevideByConstOp : public Op {
+public:
+  DevideByConstOp(const std::string& op_type) : Op(op_type) {}
+
+  virtual void Compute(const Node& node, 
+                       const std::vector<Tensor>& in_tensors,
+                       std::vector<Tensor>& out_tensors) override;
+
+  virtual void Infer(const Node& node, 
+                     const std::vector<TensorShape>& in_shapes, 
+                     std::vector<TensorShape>& out_shapes) override;
+
+  virtual void Gradient(const Node& node, 
                         const Node& in_grad, 
                         std::vector<Node>& out_grads) override;
 };
