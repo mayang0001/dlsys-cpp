@@ -15,11 +15,11 @@ int main() {
 
   Context ctx = Context::cpu();
   Tensor tensor_a(TensorShape(4, 2), ctx);
-  tensor_a.SyncFromCPU(src, tensor_a.GetTensorShape().num_elements());
+  tensor_a.SyncFromCPU(src, tensor_a.NumElements());
   Tensor tensor_b(TensorShape(4, 2), ctx);
-  tensor_b.SyncFromCPU(src, tensor_b.GetTensorShape().num_elements());
+  tensor_b.SyncFromCPU(src, tensor_b.NumElements());
   Tensor tensor_c(TensorShape(4, 2), ctx);
-  tensor_c.SyncFromCPU(src, tensor_c.GetTensorShape().num_elements());
+  tensor_c.SyncFromCPU(src, tensor_c.NumElements());
 
   Node node_a("a");
   Node node_b("b");
@@ -97,6 +97,23 @@ int main() {
   Executor exec_softmax({node_c}, ctx);
   dicts = feed_dicts;
   exec_softmax.Run(dicts);
+  dicts[node_c].Debug();
+
+  // Test SoftmaxCrossEntropyOperator 
+  //float* y_src = new float[6];
+  //float* y_src_ = new float[6];
+  float y_src[6] = {1, 0, 0.5, 0.5, 0.9, 0.1};
+  float y_src_[6] = {1, 0, 0, 1, 1, 0};
+  Tensor y(TensorShape(3, 2), ctx);
+  y.SyncFromCPU(y_src, y.NumElements());
+  Tensor y_(TensorShape(3, 2), ctx);
+  y_.SyncFromCPU(y_src_, y_.NumElements());
+  std::cout << "test softmax cross entropy operator" << std::endl;
+  node_c = SoftmaxCrossEntropyOperator(node_a, node_b);
+  Executor exec_softmax_cross_entropy({node_c}, ctx);
+  dicts[node_a] = y;
+  dicts[node_b] = y_;
+  exec_softmax_cross_entropy.Run(dicts);
   dicts[node_c].Debug();
 
   // Test ReduceSumAxisZeroOperator 

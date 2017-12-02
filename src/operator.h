@@ -54,6 +54,6 @@ Node BroadCastToOperator(const Node& from, const Node& to);
 
 Node SoftmaxOperator(const Node& node);
 
-Node SoftmaxCrossEntropyOperator(const Node& node);
+Node SoftmaxCrossEntropyOperator(const Node& lhs, const Node& rhs);
 
 #endif

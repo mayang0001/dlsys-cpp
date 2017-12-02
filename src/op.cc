@@ -357,10 +357,10 @@ void SoftmaxCrossEntropyOp::Compute(const Node& node,
     }
     for (int j = 0; j < n; j++) {
       tmp[j] /= sum;
-      total_sum += (-1) * y_.GetHandle()[n * i + j] * log(tmp[j]);
+      total_sum += (-y_.GetHandle()[n * i + j]) * log(tmp[j]);
     }
   }
-  out_tensors[0].GetHandle()[0] = (total_sum / m / n);
+  out_tensors[0].GetHandle()[0] = (total_sum / m);
 }
 
 void SoftmaxCrossEntropyOp::Infer(const Node& node,

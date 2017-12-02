@@ -111,6 +111,6 @@ Node SoftmaxOperator(const Node& node) {
   return Operator("Softmax").CreateNode(node);
 }
 
-Node SoftmaxCrossEntropyOperator(const Node& node) {
-  return Operator("SoftmaxCrossEntropy").CreateNode(node);
+Node SoftmaxCrossEntropyOperator(const Node& lhs, const Node& rhs) {
+  return Operator("SoftmaxCrossEntropy").CreateNode(lhs, rhs);
 }
