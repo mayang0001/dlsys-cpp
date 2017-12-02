@@ -61,14 +61,21 @@ public:
 
   // Just for 2 dim Tensor
   void Debug() const {
-    int dim_a = shape_.dim_size(0);
-    int dim_b = shape_.dim_size(1);
-    for (int i = 0; i < dim_a; i++) {
-      for (int j = 0; j < dim_b; j++) {
-        std::cout << handle_[dim_b * i + j] << " ";
+    if (shape_.dims() == 2) {
+      int dim_a = shape_.dim_size(0);
+      int dim_b = shape_.dim_size(1);
+      for (int i = 0; i < dim_a; i++) {
+        for (int j = 0; j < dim_b; j++) {
+          std::cout << handle_[dim_b * i + j] << " ";
+        }
+        std::cout << std::endl;
+      } 
+    } else {
+      for (int i = 0; i < shape_.dim_size(0); i++) {
+        std::cout << handle_[i] << " ";
       }
       std::cout << std::endl;
-    } 
+    }
   }
 
 private:

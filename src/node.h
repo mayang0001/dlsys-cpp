@@ -13,13 +13,17 @@ public:
   explicit Node(const std::string& name) : name_(name) {}
 
   Node(const Node& rhs) 
-      : name_(rhs.name_), inputs_(rhs.inputs_), op_(rhs.op_) {
+      : name_(rhs.name_), 
+        inputs_(rhs.inputs_), 
+        attrs_(rhs.attrs_), 
+        op_(rhs.op_) {
   }
 
   Node& operator=(const Node& rhs) {
     if (this != &rhs) {
       name_ = rhs.name_;
       inputs_ = rhs.inputs_;
+      attrs_ = rhs.attrs_;
       op_ = rhs.op_;
     }
     return *this;

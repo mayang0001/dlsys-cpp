@@ -247,16 +247,23 @@ void ReduceSumAxisZeroOp::Compute(const Node& node,
   int reduce_elements = num_elements / in_tensors[0].GetTensorShape().dim_size(0);
   float* out = out_tensors[0].GetHandle();
   for (int i = 0; i < num_elements; i++) {
-    out[i % reduce_elements] = in[i];
+    int idx = i / reduce_elements;
+    if (idx == 0) {
+      out[i % reduce_elements] = in[i];
+    } else {
+      out[i % reduce_elements] += in[i];
+    }
   }
 }
 
 void ReduceSumAxisZeroOp::Infer(const Node& node,
                     const std::vector<TensorShape>& in_shapes,
                     std::vector<TensorShape>& out_shapes) {
+  TensorShape out_shape;
   for (int i = 1; i < in_shapes[0].dims(); i++) {
-    out_shapes[0].AppendDim(in_shapes[0].dim_size(i));
+    out_shape.AppendDim(in_shapes[0].dim_size(i));
   }
+  out_shapes.push_back(out_shape);
 }
 
 void ReduceSumAxisZeroOp::Gradient(const Node& node, 
@@ -276,7 +283,7 @@ void BroadCastToOp::Compute(const Node& node,
   
   float* base = out_tensors[0].GetHandle();
   for (int i = 0; i < n_times; i++) {
-    for (int j = 0; j < num_elements; i++) {
+    for (int j = 0; j < num_elements; j++) {
       base[j] = in_tensors[0].GetHandle()[j];
     } 
     base += num_elements;
