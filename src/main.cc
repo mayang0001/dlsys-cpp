@@ -33,8 +33,11 @@ int main() {
   std::vector<Tensor> out_vals;
   std::vector<Tensor> grad_vals;
   int iter_num = 1;
+  float lr = 0.1;
   for (int i = 0; i < iter_num; i++) {
     std::cout << i << std::endl;
     exec.Run({loss}, out_vals, {weights, bias}, grad_vals, feed_dicts);
+    w_val -= lr * grad_vals[0];
+    b_val -= lr * grad_vals[1];
   }
 }

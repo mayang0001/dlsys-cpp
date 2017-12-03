@@ -43,6 +43,98 @@ public:
     delete[] handle_;
   }
 
+  Tensor operator+(const Tensor& rhs) const {
+    Tensor result(shape_, ctx_);
+    for (int i = 0; i < NumElements(); i++) {
+      result.handle_[i] = handle_[i] + rhs.handle_[i];
+    }
+    return result;
+  }
+
+  Tensor operator-(const Tensor& rhs) const {
+    Tensor result(shape_, ctx_);
+    for (int i = 0; i < NumElements(); i++) {
+      result.handle_[i] = handle_[i] - rhs.handle_[i];
+    }
+    return result;
+  }
+
+  Tensor operator*(const Tensor& rhs) const {
+    Tensor result(shape_, ctx_);
+    for (int i = 0; i < NumElements(); i++) {
+      result.handle_[i] = handle_[i] * rhs.handle_[i];
+    }
+    return result;
+  }
+
+  Tensor operator/(const Tensor& rhs) const {
+    Tensor result(shape_, ctx_);
+    for (int i = 0; i < NumElements(); i++) {
+      result.handle_[i] = handle_[i] / rhs.handle_[i];
+    }
+    return result;
+  }
+
+  Tensor operator+(float val) const {
+    Tensor result(shape_, ctx_);
+    for (int i = 0; i < NumElements(); i++) {
+      result.handle_[i] = handle_[i] + val;
+    }
+    return result;
+  }
+
+  Tensor operator-(float val) const {
+    Tensor result(shape_, ctx_);
+    for (int i = 0; i < NumElements(); i++) {
+      result.handle_[i] = handle_[i] - val;
+    }
+    return result;
+  }
+
+  Tensor operator*(float val) const {
+    Tensor result(shape_, ctx_);
+    for (int i = 0; i < NumElements(); i++) {
+      result.handle_[i] = handle_[i] * val;
+    }
+    return result;
+  }
+
+  Tensor operator/(float val) const {
+    Tensor result(shape_, ctx_);
+    for (int i = 0; i < NumElements(); i++) {
+      result.handle_[i] = handle_[i] / val;
+    }
+    return result;
+  }
+
+  Tensor& operator+=(const Tensor& rhs) {
+    for (int i = 0; i < NumElements(); i++) {
+      handle_[i] += rhs.handle_[i];
+    }
+    return *this;
+  }
+
+  Tensor& operator-=(const Tensor& rhs) {
+    for (int i = 0; i < NumElements(); i++) {
+      handle_[i] -= rhs.handle_[i];
+    }
+    return *this;
+  }
+
+  Tensor& operator*=(const Tensor& rhs) {
+    for (int i = 0; i < NumElements(); i++) {
+      handle_[i] *= rhs.handle_[i];
+    }
+    return *this;
+  }
+
+  Tensor& operator/=(const Tensor& rhs) {
+    for (int i = 0; i < NumElements(); i++) {
+      handle_[i] /= rhs.handle_[i];
+    }
+    return *this;
+  }
+
   void SyncFromCPU(const float* data, size_t size) {
     for (int i = 0; i < shape_.num_elements(); i++) {
       handle_[i] = data[i];
@@ -83,5 +175,10 @@ private:
   Context ctx_;
   TensorShape shape_;
 };
+
+
+Tensor operator+(float val, const Tensor& rhs);
+
+Tensor operator*(float val, const Tensor& rhs);
 
 #endif
