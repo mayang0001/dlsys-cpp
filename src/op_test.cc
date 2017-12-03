@@ -35,12 +35,28 @@ int main() {
   exec_add.Run(dicts);
   dicts[node_c].Debug();
 
+  // Test AddByConstOperator
+  std::cout << "test add by const operator" << std::endl;
+  node_c = AddByConstOperator(node_a, 2.5);
+  Executor exec_add_by_const({node_c}, ctx);
+  dicts = feed_dicts;
+  exec_add_by_const.Run(dicts);
+  dicts[node_c].Debug();
+
   // Test MinusOperator 
   std::cout << "test minus operator" << std::endl;
   node_c = MinusOperator(node_a, node_b);
   Executor exec_minus({node_c}, ctx);
   dicts = feed_dicts;
   exec_minus.Run(dicts);
+  dicts[node_c].Debug();
+
+  // Test MinusByConstOperator
+  std::cout << "test minus by const operator" << std::endl;
+  node_c = MinusByConstOperator(node_a, 2.5);
+  Executor exec_minus_by_const({node_c}, ctx);
+  dicts = feed_dicts;
+  exec_minus_by_const.Run(dicts);
   dicts[node_c].Debug();
 
   // Test MultiplyOperator
@@ -51,7 +67,7 @@ int main() {
   exec_multiply.Run(dicts);
   dicts[node_c].Debug();
 
-  // Test MultiplyOperator
+  // Test MultiplyByConstOperator
   std::cout << "test multiply by const operator" << std::endl;
   node_c = MultiplyByConstOperator(node_a, 2.5);
   Executor exec_multiply_by_const({node_c}, ctx);
@@ -65,6 +81,14 @@ int main() {
   Executor exec_devide({node_c}, ctx);
   dicts = feed_dicts;
   exec_devide.Run(dicts);
+  dicts[node_c].Debug();
+
+  // Test DevideByConstOperator
+  std::cout << "test multiply by const operator" << std::endl;
+  node_c = DevideByConstOperator(node_a, 2.5);
+  Executor exec_devide_by_const({node_c}, ctx);
+  dicts = feed_dicts;
+  exec_devide_by_const.Run(dicts);
   dicts[node_c].Debug();
 
   // Test MatMulOperator 

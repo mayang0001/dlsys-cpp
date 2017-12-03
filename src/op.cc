@@ -25,6 +25,29 @@ void AddOp::Gradient(const Node& node,
   out_grads = {in_grad, in_grad};
 }
 
+void AddByConstOp::Compute(const Node& node,
+                           const std::vector<Tensor>& in_tensors, 
+                           std::vector<Tensor>& out_tensors) {
+  const TensorShape& out_shape = out_tensors[0].GetTensorShape();
+  float const_val;
+  node.GetAttr("const_val", const_val);
+  for (int i = 0; i < out_shape.num_elements(); i++) {
+    out_tensors[0].GetHandle()[i] = in_tensors[0].GetHandle()[i] + const_val;
+  }
+}
+
+void AddByConstOp::Infer(const Node& node,
+                         const std::vector<TensorShape>& in_shapes,
+                         std::vector<TensorShape>& out_shapes) {
+  out_shapes = {in_shapes[0]};
+}
+
+void AddByConstOp::Gradient(const Node& node, 
+                            const Node& in_grad, 
+                            std::vector<Node>& out_grads) {
+  out_grads = {in_grad};
+}
+
 void MinusOp::Compute(const Node& node,
                       const std::vector<Tensor>& in_tensors, 
                       std::vector<Tensor>& out_tensors) {
@@ -45,6 +68,29 @@ void MinusOp::Gradient(const Node& node,
                        const Node& in_grad, 
                        std::vector<Node>& out_grads) {
   out_grads = {in_grad, in_grad};
+}
+
+void MinusByConstOp::Compute(const Node& node,
+                             const std::vector<Tensor>& in_tensors, 
+                             std::vector<Tensor>& out_tensors) {
+  const TensorShape& out_shape = out_tensors[0].GetTensorShape();
+  float const_val;
+  node.GetAttr("const_val", const_val);
+  for (int i = 0; i < out_shape.num_elements(); i++) {
+    out_tensors[0].GetHandle()[i] = in_tensors[0].GetHandle()[i] - const_val;
+  }
+}
+
+void MinusByConstOp::Infer(const Node& node,
+                           const std::vector<TensorShape>& in_shapes,
+                           std::vector<TensorShape>& out_shapes) {
+  out_shapes = {in_shapes[0]};
+}
+
+void MinusByConstOp::Gradient(const Node& node, 
+                              const Node& in_grad, 
+                              std::vector<Node>& out_grads) {
+  out_grads = {in_grad};
 }
 
 void MultiplyOp::Compute(const Node& node,
@@ -83,18 +129,16 @@ void MultiplyByConstOp::Compute(const Node& node,
 }
 
 void MultiplyByConstOp::Infer(const Node& node,
-                       const std::vector<TensorShape>& in_shapes,
-                       std::vector<TensorShape>& out_shapes) {
+                              const std::vector<TensorShape>& in_shapes,
+                              std::vector<TensorShape>& out_shapes) {
   out_shapes = {in_shapes[0]};
 }
 
 void MultiplyByConstOp::Gradient(const Node& node, 
-                          const Node& in_grad, 
-                          std::vector<Node>& out_grads) {
+                                 const Node& in_grad, 
+                                 std::vector<Node>& out_grads) {
   float const_val;
   node.GetAttr("const_val", const_val);
-  std::vector<Node> inputs;
-  node.GetInputNodes(inputs); 
   out_grads = {in_grad * const_val};
 }
 
@@ -109,8 +153,8 @@ void DevideOp::Compute(const Node& node,
 }
 
 void DevideOp::Infer(const Node& node,
-                    const std::vector<TensorShape>& in_shapes,
-                    std::vector<TensorShape>& out_shapes) {
+                     const std::vector<TensorShape>& in_shapes,
+                     std::vector<TensorShape>& out_shapes) {
   out_shapes = {in_shapes[0]};
 }
 
@@ -122,6 +166,31 @@ void DevideOp::Gradient(const Node& node,
   Node lhs_node = in_grad * node / inputs[1];
   Node rhs_node = in_grad / inputs[1];
   out_grads = {lhs_node, rhs_node};
+}
+
+void DevideByConstOp::Compute(const Node& node,
+                              const std::vector<Tensor>& in_tensors, 
+                              std::vector<Tensor>& out_tensors) {
+  const TensorShape& out_shape = out_tensors[0].GetTensorShape();
+  float const_val;
+  node.GetAttr("const_val", const_val);
+  for (int i = 0; i < out_shape.num_elements(); i++) {
+    out_tensors[0].GetHandle()[i] = in_tensors[0].GetHandle()[i] / const_val;
+  }
+}
+
+void DevideByConstOp::Infer(const Node& node,
+                            const std::vector<TensorShape>& in_shapes,
+                            std::vector<TensorShape>& out_shapes) {
+  out_shapes = {in_shapes[0]};
+}
+
+void DevideByConstOp::Gradient(const Node& node, 
+                               const Node& in_grad, 
+                               std::vector<Node>& out_grads) {
+  float const_val;
+  node.GetAttr("const_val", const_val);
+  out_grads = {in_grad / const_val};
 }
 
 void MatMulOp::Compute(const Node& node,
@@ -258,8 +327,8 @@ void ReduceSumAxisZeroOp::Compute(const Node& node,
 }
 
 void ReduceSumAxisZeroOp::Infer(const Node& node,
-                    const std::vector<TensorShape>& in_shapes,
-                    std::vector<TensorShape>& out_shapes) {
+                                const std::vector<TensorShape>& in_shapes,
+                                std::vector<TensorShape>& out_shapes) {
   TensorShape out_shape;
   for (int i = 1; i < in_shapes[0].dims(); i++) {
     out_shape.AppendDim(in_shapes[0].dim_size(i));
