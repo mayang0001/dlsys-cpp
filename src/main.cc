@@ -23,7 +23,7 @@ int main() {
   Tensor x_val(TensorShape(size, size), ctx);
   Tensor y_val(TensorShape(size, size), ctx);
   Tensor w_val(TensorShape(size, size), ctx);
-  Tensor b_val(TensorShape(size, size), ctx);
+  Tensor b_val(TensorShape(size), ctx);
   std::unordered_map<Node, Tensor> feed_dicts;
   feed_dicts[x] = x_val;
   feed_dicts[y_] = y_val;
@@ -35,7 +35,6 @@ int main() {
   int iter_num = 1;
   float lr = 0.1;
   for (int i = 0; i < iter_num; i++) {
-    std::cout << i << std::endl;
     exec.Run({loss}, out_vals, {weights, bias}, grad_vals, feed_dicts);
     w_val -= lr * grad_vals[0];
     b_val -= lr * grad_vals[1];

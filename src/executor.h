@@ -39,8 +39,6 @@ public:
     if (need_topo_order_) GetTopoOrder(nodes);
 
     for (auto node : topo_orders_) {
-      std::cout << node.name() << std::endl;
-
       if (node_to_tensor.find(node) != node_to_tensor.end()) continue;
 
       std::vector<Node> input_nodes;
@@ -63,13 +61,12 @@ public:
       node_to_tensor[node] = out_tensors[0];
     }
 
-    std::cout << "+++" << std::endl;
+    out_vals.clear();
     for (auto node : out_nodes) {
-      out_vals.clear();
       out_vals.push_back(node_to_tensor[node]);
     }
+    grad_vals.clear();
     for (auto node : grad_nodes) {
-      grad_vals.clear();
       grad_vals.push_back(node_to_tensor[node_to_grads_[node]]);
     }
   }
