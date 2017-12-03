@@ -113,6 +113,10 @@ private:
   std::shared_ptr<Op> op_;
 };
 
+Node operator+(float val, const Node& node);
+
+Node operator*(float val, const Node& node);
+
 namespace std {
 
 template <>

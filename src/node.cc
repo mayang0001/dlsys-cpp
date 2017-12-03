@@ -53,3 +53,10 @@ Node& Node::operator/=(const Node& rhs) {
   return *this; 
 }
 
+Node operator+(float val, const Node& node) {
+  return node + val;
+}
+
+Node operator*(float val, const Node& node) {
+  return node * val;
+}
