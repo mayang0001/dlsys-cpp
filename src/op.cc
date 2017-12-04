@@ -209,17 +209,17 @@ void MatMulOp::Compute(const Node& node,
 
   int num_m = trans_a ? shape_a.dim_size(1) : shape_a.dim_size(0);
   int num_n = trans_b ? shape_b.dim_size(0) : shape_b.dim_size(1);
-  int num_k = trans_a ? shape_a.dim_size(0) : shape_b.dim_size(1);
+  int num_k = trans_a ? shape_a.dim_size(0) : shape_b.dim_size(0);
 
   for (int i = 0; i < num_m; i++) {
     for (int j = 0; j < num_n; j++) {
       float sum = 0.0;
       for (int k = 0; k < num_k; k++) {
-        float a_val = a[num_k * i + k];
-        float b_val = b[num_k * j + k];
+        float a_val = trans_a ? a[num_k * k + i] : a[num_k * i + k];
+        float b_val = trans_b ? b[num_n * j + k] : b[num_n * k + j];
         sum += a_val * b_val;
       }
-      out_tensors[0].GetHandle()[num_m * i + j] = sum;
+      out_tensors[0].GetHandle()[num_n * i + j] = sum;
     }
   }
 }
