@@ -19,31 +19,32 @@ int main() {
   Context ctx = Context::cpu();
   Executor exec(ctx, loss, {weights, bias});
 
-  int batch_size = 10000;
+  int batch_size = 1000;
 
   Tensor x_val(TensorShape(batch_size, 784), ctx);
   Tensor y_val(TensorShape(batch_size, 10), ctx);
+
   Tensor w_val(TensorShape(784, 10), ctx);
-  std::vector<float> ws(784 * 10, 0.01);
+  std::vector<float> ws(784 * 10, 0.0);
   w_val.SyncFromVector(ws, 784 * 10);
+  
   Tensor b_val(TensorShape(10), ctx);
   std::vector<float> bs(10, 0.0);
   b_val.SyncFromVector(bs, 10);
-  std::unordered_map<Node, Tensor> feed_dicts;
 
   std::vector<Tensor> out_vals;
   std::vector<Tensor> grad_vals;
-  int iter_num = 1;
-  float lr = 0.001;
-  MnistReader train_x("../mnist/train_x.txt", batch_size);
-  MnistReader train_y("../mnist/train_y.txt", batch_size);
+  int iter_num = 100;
+  float lr = 0.01;
+  MnistReader train_x("../mnist/test_x.txt", batch_size);
+  MnistReader train_y("../mnist/test_y.txt", batch_size);
 
+  std::unordered_map<Node, Tensor> feed_dicts;
   for (int i = 0; i < iter_num; i++) {
     std::cout << "iter num " << i << std::endl;
     std::vector<float> xs;
     std::vector<float> ys;
     while (train_x.NextBatch(xs) && train_y.NextBatch(ys)) {
-      std::cout << "lll" << std::endl;
       x_val.SyncFromVector(xs, batch_size * 784);
       y_val.SyncFromVector(ys, batch_size * 10);
 
@@ -55,7 +56,7 @@ int main() {
       exec.Run({loss}, out_vals, {weights, bias}, grad_vals, feed_dicts);
       w_val -= lr * grad_vals[0];
       b_val -= lr * grad_vals[1];
-      out_vals[0].Debug();
     }
+    out_vals[0].Debug();
   }
 }
