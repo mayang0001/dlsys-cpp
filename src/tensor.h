@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <memory>
+#include <vector>
 #include "context.h"
 #include "tensor_shape.h"
 
@@ -136,6 +137,12 @@ public:
   }
 
   void SyncFromCPU(const float* data, size_t size) {
+    for (int i = 0; i < shape_.num_elements(); i++) {
+      handle_[i] = data[i];
+    } 
+  }
+
+  void SyncFromVector(const std::vector<float>& data, size_t size) {
     for (int i = 0; i < shape_.num_elements(); i++) {
       handle_[i] = data[i];
     } 
