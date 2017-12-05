@@ -29,15 +29,10 @@ public:
     // so we need to do topo sort with nodes as output first.
     std::vector<Node> nodes;
     nodes.insert(nodes.end(), out_nodes.begin(), out_nodes.end());
-    for (auto node : grad_nodes) {
-      auto iter = node_to_grads_.find(node);
-      if (iter == node_to_grads_.end()) {
-        std::cout << "target node not in" << std::endl;
-      } else {
-        nodes.push_back(iter->second);
-      }
-    }
-    
+    std::transform(grad_nodes.begin(), grad_nodes.end(), 
+                   std::back_inserter(nodes), 
+                   [this](const Node& node) { return node_to_grads_.at(node); });
+
     if (need_topo_order_) GetTopoOrder(nodes);
 
     for (auto node : topo_orders_) {
@@ -79,9 +74,7 @@ private:
     std::unordered_map<Node, std::vector<Node>> node_to_grads;
 
     auto reduce_sum_by_node = [&node_to_grads] (const Node& node) {
-      auto iter = node_to_grads.find(node);
-      // TODO if we not find node
-      auto grads = iter->second;
+      auto grads = node_to_grads.at(node);
       if (grads.size() > 1) {
         for (int i = 1; i < grads.size(); i++) {
           grads[0] += grads[i];

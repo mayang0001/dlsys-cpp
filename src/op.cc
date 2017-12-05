@@ -67,7 +67,7 @@ void MinusOp::Infer(const Node& node,
 void MinusOp::Gradient(const Node& node,
                        const Node& in_grad, 
                        std::vector<Node>& out_grads) {
-  out_grads = {in_grad, in_grad};
+  out_grads = {in_grad, in_grad * -1};
 }
 
 void MinusByConstOp::Compute(const Node& node,
@@ -164,7 +164,7 @@ void DevideOp::Gradient(const Node& node,
   std::vector<Node> inputs;
   node.GetInputNodes(inputs);
   Node lhs_node = in_grad * node / inputs[1];
-  Node rhs_node = in_grad / inputs[1];
+  Node rhs_node = -1 * in_grad / inputs[1];
   out_grads = {lhs_node, rhs_node};
 }
 
