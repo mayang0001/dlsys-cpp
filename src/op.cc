@@ -114,7 +114,7 @@ void MultiplyOp::Gradient(const Node& node,
                           std::vector<Node>& out_grads) {
   std::vector<Node> inputs;
   node.GetInputNodes(inputs); 
-  out_grads = {in_grad * inputs[0], in_grad * inputs[1]};
+  out_grads = {in_grad * inputs[1], in_grad * inputs[0]};
 }
 
 void MultiplyByConstOp::Compute(const Node& node,

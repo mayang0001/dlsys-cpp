@@ -35,17 +35,17 @@ int main() {
   std::vector<Tensor> out_vals;
   std::vector<Tensor> grad_vals;
   int iter_num = 200;
-  float lr = 0.0001;
-  MnistReader train_x("../mnist/test_x.txt", batch_size);
-  MnistReader train_y("../mnist/test_y.txt", batch_size);
+  float lr = 0.00000000000000000000000000000000000000001;
+  MnistReader train_x("../mnist/train_x.txt", batch_size);
+  MnistReader train_y("../mnist/train_y.txt", batch_size);
 
   std::unordered_map<Node, Tensor> feed_dicts;
   for (int i = 0; i < iter_num; i++) {
     std::cout << "iter num " << i << std::endl;
     std::vector<float> xs;
     std::vector<float> ys;
-    train_x.NextBatch(xs);
-    train_y.NextBatch(ys);
+    std::cout << train_x.NextBatch(xs) << std::endl;;
+    std::cout << train_y.NextBatch(ys) << std::endl;;
     x_val.SyncFromVector(xs, batch_size * 784);
     y_val.SyncFromVector(ys, batch_size * 10);
 
