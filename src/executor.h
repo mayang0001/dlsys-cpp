@@ -25,6 +25,8 @@ public:
            const std::vector<Node>& grad_nodes,
            std::vector<Tensor>& grad_vals,
            std::unordered_map<Node, Tensor>& node_to_tensor) {
+    // nodes represent the nodes we need to evalute, 
+    // so we need to do topo sort with nodes as output first.
     std::vector<Node> nodes;
     nodes.insert(nodes.end(), out_nodes.begin(), out_nodes.end());
     for (auto node : grad_nodes) {
@@ -39,24 +41,23 @@ public:
     if (need_topo_order_) GetTopoOrder(nodes);
 
     for (auto node : topo_orders_) {
-      if (node_to_tensor.find(node) != node_to_tensor.end()) continue;
-
-      std::vector<Node> input_nodes;
-      node.GetInputNodes(input_nodes);
-
-      std::vector<Tensor> input_tensors;
-      std::vector<TensorShape> input_shapes;
-      for (auto input_node : input_nodes) {
-        const Tensor& input_tensor = node_to_tensor[input_node];
-        input_tensors.push_back(input_tensor);
-        input_shapes.push_back(input_tensor.GetTensorShape());
+      std::vector<Node> in_nodes;
+      node.GetInputNodes(in_nodes);
+      if (in_nodes.size() == 0) return;
+      std::vector<Tensor> in_tensors;
+      std::vector<TensorShape> in_shapes;
+      for (auto in_node : in_nodes) {
+        const Tensor& in_tensor = node_to_tensor[in_node];
+        in_tensors.push_back(in_tensor);
+        in_shapes.push_back(in_tensor.GetTensorShape());
       }
 
+
       std::vector<TensorShape> out_shapes;
-      node.GetOp()->Infer(node, input_shapes, out_shapes);
+      node.GetOp()->Infer(node, in_shapes, out_shapes);
 
       std::vector<Tensor> out_tensors = {Tensor(out_shapes[0], Context::cpu())};
-      node.GetOp()->Compute(node, input_tensors, out_tensors);
+      node.GetOp()->Compute(node, in_tensors, out_tensors);
 
       node_to_tensor[node] = out_tensors[0];
     }
