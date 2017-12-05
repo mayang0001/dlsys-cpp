@@ -34,8 +34,8 @@ int main() {
 
   std::vector<Tensor> out_vals;
   std::vector<Tensor> grad_vals;
-  int iter_num = 100;
-  float lr = 0.01;
+  int iter_num = 200;
+  float lr = 0.0001;
   MnistReader train_x("../mnist/test_x.txt", batch_size);
   MnistReader train_y("../mnist/test_y.txt", batch_size);
 
@@ -44,19 +44,20 @@ int main() {
     std::cout << "iter num " << i << std::endl;
     std::vector<float> xs;
     std::vector<float> ys;
-    while (train_x.NextBatch(xs) && train_y.NextBatch(ys)) {
-      x_val.SyncFromVector(xs, batch_size * 784);
-      y_val.SyncFromVector(ys, batch_size * 10);
+    train_x.NextBatch(xs);
+    train_y.NextBatch(ys);
+    x_val.SyncFromVector(xs, batch_size * 784);
+    y_val.SyncFromVector(ys, batch_size * 10);
 
-      feed_dicts[x] = x_val;
-      feed_dicts[y_] = y_val;
-      feed_dicts[weights] = w_val;
-      feed_dicts[bias] = b_val;
+    feed_dicts[x] = x_val;
+    feed_dicts[y_] = y_val;
+    feed_dicts[weights] = w_val;
+    feed_dicts[bias] = b_val;
 
-      exec.Run({loss}, out_vals, {weights, bias}, grad_vals, feed_dicts);
-      w_val -= lr * grad_vals[0];
-      b_val -= lr * grad_vals[1];
-    }
+    exec.Run({loss}, out_vals, {weights, bias}, grad_vals, feed_dicts);
+    w_val -= lr * grad_vals[0];
+    b_val -= lr * grad_vals[1];
+
     out_vals[0].Debug();
   }
 }
