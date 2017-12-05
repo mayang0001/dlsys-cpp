@@ -43,7 +43,7 @@ public:
     for (auto node : topo_orders_) {
       std::vector<Node> in_nodes;
       node.GetInputNodes(in_nodes);
-      if (in_nodes.size() == 0) return;
+      if (in_nodes.size() == 0) continue;
       std::vector<Tensor> in_tensors;
       std::vector<TensorShape> in_shapes;
       for (auto in_node : in_nodes) {
