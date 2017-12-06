@@ -10,10 +10,11 @@ class MnistReader {
       : idx_(0), file_path_(path), batch_size_(batch_size) {
     std::ifstream file(path);
     std::string line;
+    std::vector<float> features;
     while (getline(file, line)) {
       std::istringstream words(line);
       float feature;
-      std::vector<float> features;
+      features.clear();
       while (words >> feature) {
         features.push_back(feature); 
       }

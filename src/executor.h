@@ -113,9 +113,9 @@ private:
 
   void dfs(const Node& node, std::unordered_set<Node>& visited) {
     if (visited.find(node) == visited.end()) {
-      std::vector<Node> input_nodes;
-      node.GetInputNodes(input_nodes);
       if (!node.IsVariable()) {
+        std::vector<Node> input_nodes;
+        node.GetInputNodes(input_nodes);
         for (auto input_node : input_nodes) {
           dfs(input_node, visited);      
         } 

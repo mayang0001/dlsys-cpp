@@ -14,12 +14,12 @@ public:
   DeviceType GetDeviceType() { return device_type_; }
   int GetDeviceId() { return device_id_; }
 
-  static Context cpu() {
-    Context ctx(DeviceType::kCPU, 0);
+  static Context cpu(int device_id = 0) {
+    Context ctx(DeviceType::kCPU, device_id);
     return ctx; 
   }
-  static Context gpu() { 
-    Context ctx(DeviceType::kGPU, 0);
+  static Context gpu(int device_id = 0) { 
+    Context ctx(DeviceType::kGPU, device_id);
     return ctx; 
   }
   
