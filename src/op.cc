@@ -362,7 +362,7 @@ void OnesOp::Gradient(const Node& node,
 void ReduceSumAxisZeroOp::Compute(const Node& node,
                                   const std::vector<Tensor>& in_tensors,
                                   std::vector<Tensor>& out_tensors) {
-  assert(in_tensors.size() == 2);
+  assert(in_tensors.size() == 1);
 
   const float* in = in_tensors[0].GetHandle();
   int num_elements = in_tensors[0].NumElements();
@@ -381,7 +381,7 @@ void ReduceSumAxisZeroOp::Compute(const Node& node,
 void ReduceSumAxisZeroOp::Infer(const Node& node,
                                 const std::vector<TensorShape>& in_shapes,
                                 std::vector<TensorShape>& out_shapes) {
-  assert(in_shapes.size() == 2);
+  assert(in_shapes.size() == 1);
 
   TensorShape out_shape;
   for (int i = 1; i < in_shapes[0].dims(); i++) {
@@ -473,7 +473,7 @@ void SoftmaxOp::Gradient(const Node& node,
 void SoftmaxCrossEntropyOp::Compute(const Node& node,
                                     const std::vector<Tensor>& in_tensors,
                                     std::vector<Tensor>& out_tensors) {
-  assert(in_tensors.size() == 1);
+  assert(in_tensors.size() == 2);
 
   Tensor y = in_tensors[0];
   Tensor y_ = in_tensors[1];
@@ -500,7 +500,7 @@ void SoftmaxCrossEntropyOp::Compute(const Node& node,
 void SoftmaxCrossEntropyOp::Infer(const Node& node,
                                   const std::vector<TensorShape>& in_shapes,
                                   std::vector<TensorShape>& out_shapes) {
-  assert(in_shapes.size() == 1);
+  assert(in_shapes.size() == 2);
 
   out_shapes = {TensorShape(1)};
 }
