@@ -9,7 +9,7 @@ void AddOp::Compute(const Node& node,
                     std::vector<Tensor>& out_tensors) {
   assert(in_tensors.size() == 2);
 
-  int num_elements = in_tensors[0].NumElements();
+  int num_elements = out_tensors[0].NumElements();
   for (int i = 0; i < num_elements; i++) {
     out_tensors[0].GetHandle()[i] = 
         in_tensors[0].GetHandle()[i] + in_tensors[1].GetHandle()[i];
@@ -35,7 +35,7 @@ void AddByConstOp::Compute(const Node& node,
                            std::vector<Tensor>& out_tensors) {
   assert(in_tensors.size() == 1);
 
-  int num_elements = in_tensors[0].NumElements();
+  int num_elements = out_tensors[0].NumElements();
   float const_val;
   node.GetAttr("const_val", const_val);
   for (int i = 0; i < num_elements; i++) {
@@ -47,6 +47,7 @@ void AddByConstOp::Infer(const Node& node,
                          const std::vector<TensorShape>& in_shapes,
                          std::vector<TensorShape>& out_shapes) {
   assert(in_shapes.size() == 1);
+
   out_shapes = {in_shapes[0]};
 }
 
@@ -61,7 +62,7 @@ void MinusOp::Compute(const Node& node,
                       std::vector<Tensor>& out_tensors) {
   assert(in_tensors.size() == 2);
 
-  int num_elements = in_tensors[0].NumElements();
+  int num_elements = out_tensors[0].NumElements();
   for (int i = 0; i < num_elements; i++) {
     out_tensors[0].GetHandle()[i] = 
         in_tensors[0].GetHandle()[i] - in_tensors[1].GetHandle()[i];
@@ -71,7 +72,7 @@ void MinusOp::Compute(const Node& node,
 void MinusOp::Infer(const Node& node,
                     const std::vector<TensorShape>& in_shapes,
                     std::vector<TensorShape>& out_shapes) {
-  assert(in_tensors.size() == 2);
+  assert(in_shapes.size() == 2);
 
   out_shapes = {in_shapes[0]};
 }
@@ -87,7 +88,7 @@ void MinusByConstOp::Compute(const Node& node,
                              std::vector<Tensor>& out_tensors) {
   assert(in_tensors.size() == 1);
 
-  int num_elements = in_tensors[0].NumElements();
+  int num_elements = out_tensors[0].NumElements();
   float const_val;
   node.GetAttr("const_val", const_val);
   for (int i = 0; i < num_elements; i++) {
@@ -98,7 +99,7 @@ void MinusByConstOp::Compute(const Node& node,
 void MinusByConstOp::Infer(const Node& node,
                            const std::vector<TensorShape>& in_shapes,
                            std::vector<TensorShape>& out_shapes) {
-  assert(in_shapes.size() == 2);
+  assert(in_shapes.size() == 1);
 
   out_shapes = {in_shapes[0]};
 }
@@ -114,7 +115,7 @@ void MultiplyOp::Compute(const Node& node,
                          std::vector<Tensor>& out_tensors) {
   assert(in_tensors.size() == 2);
 
-  int num_elements = in_tensors[0].NumElements();
+  int num_elements = out_tensors[0].NumElements();
   for (int i = 0; i < num_elements; i++) {
     out_tensors[0].GetHandle()[i] = 
         in_tensors[0].GetHandle()[i] * in_tensors[1].GetHandle()[i];
@@ -124,7 +125,7 @@ void MultiplyOp::Compute(const Node& node,
 void MultiplyOp::Infer(const Node& node,
                        const std::vector<TensorShape>& in_shapes,
                        std::vector<TensorShape>& out_shapes) {
-  assert(in_tensors.size() == 2);
+  assert(in_shapes.size() == 2);
 
   out_shapes = {in_shapes[0]};
 }
@@ -171,7 +172,7 @@ void DevideOp::Compute(const Node& node,
                        std::vector<Tensor>& out_tensors) {
   assert(in_tensors.size() == 2);
 
-  int num_elements = out_tensors[0].size();
+  int num_elements = out_tensors[0].NumElements();
   for (int i = 0; i < num_elements; i++) {
     out_tensors[0].GetHandle()[i] = 
         in_tensors[0].GetHandle()[i] / in_tensors[1].GetHandle()[i];
@@ -319,6 +320,7 @@ void ZerosOp::Infer(const Node& node,
                     const std::vector<TensorShape>& in_shapes,
                     std::vector<TensorShape>& out_shapes) {
   assert(in_shapes.size() == 1);
+
   out_shapes = {in_shapes[0]};
 }
 
