@@ -1,3 +1,4 @@
+#include <cassert>
 #include <cmath>
 #include <memory>
 #include "node.h"
@@ -6,8 +7,10 @@
 void AddOp::Compute(const Node& node,
                     const std::vector<Tensor>& in_tensors, 
                     std::vector<Tensor>& out_tensors) {
-  const TensorShape& out_shape = out_tensors[0].GetTensorShape();
-  for (int i = 0; i < out_shape.num_elements(); i++) {
+  assert(in_tensors.size() == 2);
+
+  int num_elements = in_tensors[0].NumElements();
+  for (int i = 0; i < num_elements; i++) {
     out_tensors[0].GetHandle()[i] = 
         in_tensors[0].GetHandle()[i] + in_tensors[1].GetHandle()[i];
   }
@@ -16,6 +19,8 @@ void AddOp::Compute(const Node& node,
 void AddOp::Infer(const Node& node,
                   const std::vector<TensorShape>& in_shapes,
                   std::vector<TensorShape>& out_shapes) {
+  assert(in_shapes.size() == 2);
+
   out_shapes = {in_shapes[0]};
 }
 
@@ -28,10 +33,12 @@ void AddOp::Gradient(const Node& node,
 void AddByConstOp::Compute(const Node& node,
                            const std::vector<Tensor>& in_tensors, 
                            std::vector<Tensor>& out_tensors) {
-  const TensorShape& out_shape = out_tensors[0].GetTensorShape();
+  assert(in_tensors.size() == 1);
+
+  int num_elements = in_tensors[0].NumElements();
   float const_val;
   node.GetAttr("const_val", const_val);
-  for (int i = 0; i < out_shape.num_elements(); i++) {
+  for (int i = 0; i < num_elements; i++) {
     out_tensors[0].GetHandle()[i] = in_tensors[0].GetHandle()[i] + const_val;
   }
 }
@@ -39,6 +46,7 @@ void AddByConstOp::Compute(const Node& node,
 void AddByConstOp::Infer(const Node& node,
                          const std::vector<TensorShape>& in_shapes,
                          std::vector<TensorShape>& out_shapes) {
+  assert(in_shapes.size() == 1);
   out_shapes = {in_shapes[0]};
 }
 
@@ -51,8 +59,10 @@ void AddByConstOp::Gradient(const Node& node,
 void MinusOp::Compute(const Node& node,
                       const std::vector<Tensor>& in_tensors, 
                       std::vector<Tensor>& out_tensors) {
-  const TensorShape& out_shape = out_tensors[0].GetTensorShape();
-  for (int i = 0; i < out_shape.num_elements(); i++) {
+  assert(in_tensors.size() == 2);
+
+  int num_elements = in_tensors[0].NumElements();
+  for (int i = 0; i < num_elements; i++) {
     out_tensors[0].GetHandle()[i] = 
         in_tensors[0].GetHandle()[i] - in_tensors[1].GetHandle()[i];
   }
@@ -61,6 +71,8 @@ void MinusOp::Compute(const Node& node,
 void MinusOp::Infer(const Node& node,
                     const std::vector<TensorShape>& in_shapes,
                     std::vector<TensorShape>& out_shapes) {
+  assert(in_tensors.size() == 2);
+
   out_shapes = {in_shapes[0]};
 }
 
@@ -73,10 +85,12 @@ void MinusOp::Gradient(const Node& node,
 void MinusByConstOp::Compute(const Node& node,
                              const std::vector<Tensor>& in_tensors, 
                              std::vector<Tensor>& out_tensors) {
-  const TensorShape& out_shape = out_tensors[0].GetTensorShape();
+  assert(in_tensors.size() == 1);
+
+  int num_elements = in_tensors[0].NumElements();
   float const_val;
   node.GetAttr("const_val", const_val);
-  for (int i = 0; i < out_shape.num_elements(); i++) {
+  for (int i = 0; i < num_elements; i++) {
     out_tensors[0].GetHandle()[i] = in_tensors[0].GetHandle()[i] - const_val;
   }
 }
@@ -84,6 +98,8 @@ void MinusByConstOp::Compute(const Node& node,
 void MinusByConstOp::Infer(const Node& node,
                            const std::vector<TensorShape>& in_shapes,
                            std::vector<TensorShape>& out_shapes) {
+  assert(in_shapes.size() == 2);
+
   out_shapes = {in_shapes[0]};
 }
 
@@ -96,8 +112,10 @@ void MinusByConstOp::Gradient(const Node& node,
 void MultiplyOp::Compute(const Node& node,
                          const std::vector<Tensor>& in_tensors, 
                          std::vector<Tensor>& out_tensors) {
-  const TensorShape& out_shape = out_tensors[0].GetTensorShape();
-  for (int i = 0; i < out_shape.num_elements(); i++) {
+  assert(in_tensors.size() == 2);
+
+  int num_elements = in_tensors[0].NumElements();
+  for (int i = 0; i < num_elements; i++) {
     out_tensors[0].GetHandle()[i] = 
         in_tensors[0].GetHandle()[i] * in_tensors[1].GetHandle()[i];
   }
@@ -106,6 +124,8 @@ void MultiplyOp::Compute(const Node& node,
 void MultiplyOp::Infer(const Node& node,
                        const std::vector<TensorShape>& in_shapes,
                        std::vector<TensorShape>& out_shapes) {
+  assert(in_tensors.size() == 2);
+
   out_shapes = {in_shapes[0]};
 }
 
@@ -120,10 +140,12 @@ void MultiplyOp::Gradient(const Node& node,
 void MultiplyByConstOp::Compute(const Node& node,
                                 const std::vector<Tensor>& in_tensors, 
                                 std::vector<Tensor>& out_tensors) {
-  const TensorShape& out_shape = out_tensors[0].GetTensorShape();
+  assert(in_tensors.size() == 1);
+
+  int num_elements = out_tensors[0].NumElements();
   float const_val;
   node.GetAttr("const_val", const_val);
-  for (int i = 0; i < out_shape.num_elements(); i++) {
+  for (int i = 0; i < num_elements; i++) {
     out_tensors[0].GetHandle()[i] = in_tensors[0].GetHandle()[i] * const_val;
   }
 }
@@ -131,6 +153,8 @@ void MultiplyByConstOp::Compute(const Node& node,
 void MultiplyByConstOp::Infer(const Node& node,
                               const std::vector<TensorShape>& in_shapes,
                               std::vector<TensorShape>& out_shapes) {
+  assert(in_shapes.size() == 1);
+
   out_shapes = {in_shapes[0]};
 }
 
@@ -145,8 +169,10 @@ void MultiplyByConstOp::Gradient(const Node& node,
 void DevideOp::Compute(const Node& node,
                        const std::vector<Tensor>& in_tensors, 
                        std::vector<Tensor>& out_tensors) {
-  const TensorShape& out_shape = out_tensors[0].GetTensorShape();
-  for (int i = 0; i < out_shape.num_elements(); i++) {
+  assert(in_tensors.size() == 2);
+
+  int num_elements = out_tensors[0].size();
+  for (int i = 0; i < num_elements; i++) {
     out_tensors[0].GetHandle()[i] = 
         in_tensors[0].GetHandle()[i] / in_tensors[1].GetHandle()[i];
   }
@@ -155,6 +181,8 @@ void DevideOp::Compute(const Node& node,
 void DevideOp::Infer(const Node& node,
                      const std::vector<TensorShape>& in_shapes,
                      std::vector<TensorShape>& out_shapes) {
+  assert(in_shapes.size() == 2);
+
   out_shapes = {in_shapes[0]};
 }
 
@@ -171,10 +199,12 @@ void DevideOp::Gradient(const Node& node,
 void DevideByConstOp::Compute(const Node& node,
                               const std::vector<Tensor>& in_tensors, 
                               std::vector<Tensor>& out_tensors) {
-  const TensorShape& out_shape = out_tensors[0].GetTensorShape();
+  assert(in_tensors.size() == 1);
+
+  int num_elements = out_tensors[0].NumElements();
   float const_val;
   node.GetAttr("const_val", const_val);
-  for (int i = 0; i < out_shape.num_elements(); i++) {
+  for (int i = 0; i < num_elements; i++) {
     out_tensors[0].GetHandle()[i] = in_tensors[0].GetHandle()[i] / const_val;
   }
 }
@@ -182,6 +212,8 @@ void DevideByConstOp::Compute(const Node& node,
 void DevideByConstOp::Infer(const Node& node,
                             const std::vector<TensorShape>& in_shapes,
                             std::vector<TensorShape>& out_shapes) {
+  assert(in_shapes.size() == 1);
+
   out_shapes = {in_shapes[0]};
 }
 
@@ -196,6 +228,8 @@ void DevideByConstOp::Gradient(const Node& node,
 void MatMulOp::Compute(const Node& node,
                        const std::vector<Tensor>& in_tensors, 
                        std::vector<Tensor>& out_tensors) {
+  assert(in_tensors.size() == 2);
+
   bool trans_a;
   node.GetAttr("trans_a", trans_a);
   bool trans_b;
@@ -230,6 +264,8 @@ void MatMulOp::Compute(const Node& node,
 void MatMulOp::Infer(const Node& node,
                      const std::vector<TensorShape>& in_shapes,
                      std::vector<TensorShape>& out_shapes) {
+  assert(in_shapes.size() == 2);
+
   bool trans_a;
   node.GetAttr("trans_a", trans_a);
   bool trans_b;
@@ -271,7 +307,10 @@ void MatMulOp::Gradient(const Node& node,
 void ZerosOp::Compute(const Node& node,
                       const std::vector<Tensor>& in_tensors,
                       std::vector<Tensor>& out_tensors) {
-  for (int i = 0; i < in_tensors[0].NumElements(); i++) {
+  assert(in_tensors.size() == 1);
+
+  int num_elements = out_tensors[0].NumElements();
+  for (int i = 0; i < num_elements; i++) {
     out_tensors[0].GetHandle()[i] = 0;
   }
 }
@@ -279,6 +318,7 @@ void ZerosOp::Compute(const Node& node,
 void ZerosOp::Infer(const Node& node,
                     const std::vector<TensorShape>& in_shapes,
                     std::vector<TensorShape>& out_shapes) {
+  assert(in_shapes.size() == 1);
   out_shapes = {in_shapes[0]};
 }
 
@@ -293,7 +333,10 @@ void ZerosOp::Gradient(const Node& node,
 void OnesOp::Compute(const Node& node,
                      const std::vector<Tensor>& in_tensors,
                      std::vector<Tensor>& out_tensors) {
-  for (int i = 0; i < in_tensors[0].NumElements(); i++) {
+  assert(in_tensors.size() == 1);
+
+  int num_elements = out_tensors[0].NumElements();
+  for (int i = 0; i < num_elements; i++) {
     out_tensors[0].GetHandle()[i] = 1;
   }
 }
@@ -301,6 +344,8 @@ void OnesOp::Compute(const Node& node,
 void OnesOp::Infer(const Node& node,
                    const std::vector<TensorShape>& in_shapes,
                    std::vector<TensorShape>& out_shapes) {
+  assert(in_shapes.size() == 1);
+
   out_shapes = {in_shapes[0]};
 }
 
@@ -315,6 +360,8 @@ void OnesOp::Gradient(const Node& node,
 void ReduceSumAxisZeroOp::Compute(const Node& node,
                                   const std::vector<Tensor>& in_tensors,
                                   std::vector<Tensor>& out_tensors) {
+  assert(in_tensors.size() == 2);
+
   const float* in = in_tensors[0].GetHandle();
   int num_elements = in_tensors[0].NumElements();
   int reduce_elements = num_elements / in_tensors[0].GetTensorShape().dim_size(0);
@@ -332,6 +379,8 @@ void ReduceSumAxisZeroOp::Compute(const Node& node,
 void ReduceSumAxisZeroOp::Infer(const Node& node,
                                 const std::vector<TensorShape>& in_shapes,
                                 std::vector<TensorShape>& out_shapes) {
+  assert(in_shapes.size() == 2);
+
   TensorShape out_shape;
   for (int i = 1; i < in_shapes[0].dims(); i++) {
     out_shape.AppendDim(in_shapes[0].dim_size(i));
@@ -350,6 +399,8 @@ void ReduceSumAxisZeroOp::Gradient(const Node& node,
 void BroadCastToOp::Compute(const Node& node,
                             const std::vector<Tensor>& in_tensors,
                             std::vector<Tensor>& out_tensors) {
+  assert(in_tensors.size() == 2);
+
   // we need to duplicate one elements n_times time
   int n_times = in_tensors[1].GetTensorShape().dim_size(0);
   int num_elements = in_tensors[0].NumElements();
@@ -366,6 +417,8 @@ void BroadCastToOp::Compute(const Node& node,
 void BroadCastToOp::Infer(const Node& node,
                           const std::vector<TensorShape>& in_shapes,
                           std::vector<TensorShape>& out_shapes) {
+  assert(in_shapes.size() == 2);
+
   out_shapes = {in_shapes[1]};
 }
 
@@ -382,6 +435,8 @@ void BroadCastToOp::Gradient(const Node& node,
 void SoftmaxOp::Compute(const Node& node,
                         const std::vector<Tensor>& in_tensors,
                         std::vector<Tensor>& out_tensors) {
+  assert(in_tensors.size() == 1);
+
   Tensor y = in_tensors[0];
   int m = y.GetTensorShape().dim_size(0);
   int n = y.GetTensorShape().dim_size(1);
@@ -402,6 +457,8 @@ void SoftmaxOp::Compute(const Node& node,
 void SoftmaxOp::Infer(const Node& node,
                       const std::vector<TensorShape>& in_shapes,
                       std::vector<TensorShape>& out_shapes) {
+  assert(in_shapes.size() == 1);
+
   out_shapes = {in_shapes[0]};
 }
 
@@ -414,6 +471,8 @@ void SoftmaxOp::Gradient(const Node& node,
 void SoftmaxCrossEntropyOp::Compute(const Node& node,
                                     const std::vector<Tensor>& in_tensors,
                                     std::vector<Tensor>& out_tensors) {
+  assert(in_tensors.size() == 1);
+
   Tensor y = in_tensors[0];
   Tensor y_ = in_tensors[1];
 
@@ -439,6 +498,8 @@ void SoftmaxCrossEntropyOp::Compute(const Node& node,
 void SoftmaxCrossEntropyOp::Infer(const Node& node,
                                   const std::vector<TensorShape>& in_shapes,
                                   std::vector<TensorShape>& out_shapes) {
+  assert(in_shapes.size() == 1);
+
   out_shapes = {TensorShape(1)};
 }
 
