@@ -515,6 +515,31 @@ void SoftmaxCrossEntropyOp::Gradient(const Node& node,
   out_grads = {lhs_grad, rhs_grad};
 }
 
+void ReluOp::Compute(const Node& node,
+                     const std::vector<Tensor>& in_tensors,
+                     std::vector<Tensor>& out_tensors) {
+  assert(in_tensors.size() == 1);
+
+  int num_elements = out_tensors[0].NumElements();
+  for (int i = 0; i < num_elements; i++) {
+    out_tensors[0].GetHandle()[i] = 
+        std::max(in_tensors[0].GetHandle()[i], (float)0.0);
+  }  
+}
+
+void ReluOp::Infer(const Node& node,
+                   const std::vector<TensorShape>& in_shapes,
+                   std::vector<TensorShape>& out_shapes) {
+  assert(in_shapes.size() == 1);
+
+  out_shapes = {in_shapes[0]};
+}
+
+void ReluOp::Gradient(const Node& node, 
+                      const Node& in_grad,
+                      std::vector<Node>& out_grads) {
+}
+
 std::shared_ptr<Op> Op::Create(const std::string& name) {
   if (name == "Add") {
     return std::make_shared<AddOp>(name);
@@ -546,6 +571,8 @@ std::shared_ptr<Op> Op::Create(const std::string& name) {
     return std::make_shared<SoftmaxOp>(name);
   } else if (name == "SoftmaxCrossEntropy"){
     return std::make_shared<SoftmaxCrossEntropyOp>(name);
+  } else if (name == "Relu") {
+    return std::make_shared<ReluOp>(name);
   } else {
     return std::make_shared<DevideOp>(nullptr);
   }

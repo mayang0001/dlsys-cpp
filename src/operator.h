@@ -64,4 +64,6 @@ Node SoftmaxOperator(const Node& node);
 
 Node SoftmaxCrossEntropyOperator(const Node& lhs, const Node& rhs);
 
+Node ReluOperator(const Node& node);
+
 #endif
