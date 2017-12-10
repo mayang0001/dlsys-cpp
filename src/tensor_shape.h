@@ -103,7 +103,7 @@ public:
     }
   } 
   
-  int num_elements() const {
+  int NumElements() const {
     int num_elements = 1;
     for (int i = 0; i < num_dims_; i++) {
       num_elements *= dim_size_[i]; 

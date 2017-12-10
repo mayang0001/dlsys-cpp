@@ -11,18 +11,18 @@ class Tensor {
 public:
   Tensor() 
       : shape_(TensorShape(0)), ctx_(Context::cpu()) {
-    handle_ = new float[shape_.num_elements()];
+    handle_ = new float[shape_.NumElements()];
   };
 
   Tensor(const TensorShape& shape, const Context& ctx)
       : shape_(shape), ctx_(ctx) {
-    handle_ = new float[shape_.num_elements()];
+    handle_ = new float[shape_.NumElements()];
   }
 
   Tensor(const Tensor& tensor) 
       : shape_(tensor.shape_), ctx_(tensor.ctx_){
-    handle_ = new float[shape_.num_elements()];     
-    for (int i = 0; i < shape_.num_elements(); i++) {
+    handle_ = new float[shape_.NumElements()];     
+    for (int i = 0; i < shape_.NumElements(); i++) {
       handle_[i]= tensor.handle_[i];
     }
   }
@@ -32,8 +32,8 @@ public:
       delete[] handle_;
       shape_ = tensor.shape_;
       ctx_ = tensor.ctx_;
-      handle_ = new float[shape_.num_elements()];
-      for (int i = 0; i < shape_.num_elements(); i++) {
+      handle_ = new float[shape_.NumElements()];
+      for (int i = 0; i < shape_.NumElements(); i++) {
         handle_[i] = tensor.handle_[i];
       }
     }
@@ -137,13 +137,13 @@ public:
   }
 
   void SyncFromCPU(const float* data, size_t size) {
-    for (int i = 0; i < shape_.num_elements(); i++) {
+    for (int i = 0; i < shape_.NumElements(); i++) {
       handle_[i] = data[i];
     } 
   }
 
   void SyncFromVector(const std::vector<float>& data, size_t size) {
-    for (int i = 0; i < shape_.num_elements(); i++) {
+    for (int i = 0; i < shape_.NumElements(); i++) {
       handle_[i] = data[i];
     } 
   }
@@ -155,7 +155,7 @@ public:
   const float* GetHandle() const { return handle_; }
 
   int NumElements() const {
-    return shape_.num_elements();
+    return shape_.NumElements();
   }
 
   // Just for 2 dim Tensor
