@@ -384,7 +384,7 @@ void ReduceSumAxisZeroOp::Infer(const Node& node,
   assert(in_shapes.size() == 1);
 
   TensorShape out_shape;
-  for (int i = 1; i < in_shapes[0].dims(); i++) {
+  for (int i = 1; i < in_shapes[0].NumDims(); i++) {
     out_shape.AppendDim(in_shapes[0].dim_size(i));
   }
   out_shapes.push_back(out_shape);

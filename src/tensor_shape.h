@@ -43,8 +43,8 @@ public:
     if (this != &shape) {
       delete[] dim_size_;
       num_dims_ = shape.num_dims_;
-      dim_size_ = new int[shape.dims()];
-      for (int i = 0; i < shape.dims(); i++) {
+      dim_size_ = new int[shape.NumDims()];
+      for (int i = 0; i < shape.NumDims(); i++) {
         dim_size_[i] = shape.dim_size(i);
       }
     }
@@ -94,7 +94,10 @@ public:
     dim_size_[num_dims_++] = dim;
   }
 
-  int dims() const { return num_dims_; }
+  int NumDims() const { 
+    return num_dims_; 
+  }
+
   int dim_size(int d) const { 
     if (d >= num_dims_) {
       return -1;

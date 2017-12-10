@@ -160,7 +160,7 @@ public:
 
   // Just for 2 dim Tensor
   void Debug() const {
-    if (shape_.dims() == 2) {
+    if (shape_.NumDims() == 2) {
       int dim_a = shape_.dim_size(0);
       int dim_b = shape_.dim_size(1);
       for (int i = 0; i < dim_a; i++) {
