@@ -242,12 +242,12 @@ void MatMulOp::Compute(const Node& node,
   TensorShape shape_a = in_tensors[0].GetTensorShape();
   TensorShape shape_b = in_tensors[1].GetTensorShape();
 
-  int num_m = trans_a ? shape_a.dim_size(1) : shape_a.dim_size(0);
-  int num_n = trans_b ? shape_b.dim_size(0) : shape_b.dim_size(1);
-  int num_k = trans_a ? shape_a.dim_size(0) : shape_a.dim_size(1);
+  int num_m = trans_a ? shape_a.DimSize(1) : shape_a.DimSize(0);
+  int num_n = trans_b ? shape_b.DimSize(0) : shape_b.DimSize(1);
+  int num_k = trans_a ? shape_a.DimSize(0) : shape_a.DimSize(1);
 
-  int num_col_a = shape_a.dim_size(1);
-  int num_col_b = shape_b.dim_size(1);
+  int num_col_a = shape_a.DimSize(1);
+  int num_col_b = shape_b.DimSize(1);
 
   for(int i = 0; i < num_m; i++) {
     for (int j = 0; j < num_n; j++) {
@@ -271,8 +271,8 @@ void MatMulOp::Infer(const Node& node,
   node.GetAttr("trans_a", trans_a);
   bool trans_b;
   node.GetAttr("trans_b", trans_b);
-  int m = trans_a ? in_shapes[0].dim_size(1) : in_shapes[0].dim_size(0);
-  int n = trans_b ? in_shapes[1].dim_size(0) : in_shapes[1].dim_size(1);
+  int m = trans_a ? in_shapes[0].DimSize(1) : in_shapes[0].DimSize(0);
+  int n = trans_b ? in_shapes[1].DimSize(0) : in_shapes[1].DimSize(1);
   out_shapes = {TensorShape(m, n)};
 }
 
@@ -366,7 +366,7 @@ void ReduceSumAxisZeroOp::Compute(const Node& node,
 
   const float* in = in_tensors[0].GetHandle();
   int num_elements = in_tensors[0].NumElements();
-  int reduce_elements = num_elements / in_tensors[0].GetTensorShape().dim_size(0);
+  int reduce_elements = num_elements / in_tensors[0].GetTensorShape().DimSize(0);
   float* out = out_tensors[0].GetHandle();
   for (int i = 0; i < num_elements; i++) {
     int idx = i / reduce_elements;
@@ -385,7 +385,7 @@ void ReduceSumAxisZeroOp::Infer(const Node& node,
 
   TensorShape out_shape;
   for (int i = 1; i < in_shapes[0].NumDims(); i++) {
-    out_shape.AppendDim(in_shapes[0].dim_size(i));
+    out_shape.AppendDim(in_shapes[0].DimSize(i));
   }
   out_shapes.push_back(out_shape);
 }
@@ -404,7 +404,7 @@ void BroadCastToOp::Compute(const Node& node,
   assert(in_tensors.size() == 2);
 
   // we need to duplicate one elements n_times time
-  int n_times = in_tensors[1].GetTensorShape().dim_size(0);
+  int n_times = in_tensors[1].GetTensorShape().DimSize(0);
   int num_elements = in_tensors[0].NumElements();
   
   float* base = out_tensors[0].GetHandle();
@@ -440,8 +440,8 @@ void SoftmaxOp::Compute(const Node& node,
   assert(in_tensors.size() == 1);
 
   Tensor y = in_tensors[0];
-  int m = y.GetTensorShape().dim_size(0);
-  int n = y.GetTensorShape().dim_size(1);
+  int m = y.GetTensorShape().DimSize(0);
+  int n = y.GetTensorShape().DimSize(1);
 
   for (int i = 0; i < m; i++) {
     float sum = 0.0;
@@ -478,8 +478,8 @@ void SoftmaxCrossEntropyOp::Compute(const Node& node,
   Tensor y = in_tensors[0];
   Tensor y_ = in_tensors[1];
 
-  int m = y.GetTensorShape().dim_size(0);
-  int n = y.GetTensorShape().dim_size(1);
+  int m = y.GetTensorShape().DimSize(0);
+  int n = y.GetTensorShape().DimSize(1);
   float total_sum = 0.0;
   std::vector<float> tmp(n);
   for (int i = 0; i < m; i++) {
