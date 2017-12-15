@@ -158,7 +158,7 @@ public:
     return shape_.NumElements();
   }
 
-  // Just for 2 dim Tensor
+  // For 2 dims tensor and 1 dim tensor
   void Debug() const {
     if (shape_.NumDims() == 2) {
       int dim_a = shape_.DimSize(0);
