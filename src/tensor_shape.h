@@ -35,7 +35,7 @@ public:
       : num_dims_(shape.num_dims_) {
     dim_size_ = new int[num_dims_];
     for (int i = 0; i < num_dims_; i++) {
-      dim_size_[i] = shape.DimSize(i);
+      dim_size_[i] = shape.dim_size_[i];
     }
   }
 
@@ -43,17 +43,16 @@ public:
     if (this != &shape) {
       delete[] dim_size_;
       num_dims_ = shape.num_dims_;
-      dim_size_ = new int[shape.NumDims()];
-      for (int i = 0; i < shape.NumDims(); i++) {
-        dim_size_[i] = shape.DimSize(i);
+      dim_size_ = new int[num_dims_];
+      for (int i = 0; i < num_dims_; i++) {
+        dim_size_[i] = shape.dim_size_[i];
       }
     }
     return *this;
   }
 
   TensorShape(TensorShape&& shape) 
-      : num_dims_(shape.num_dims_) {
-    dim_size_ = shape.dim_size_;
+      : num_dims_(shape.num_dims_), dim_size_(shape.dim_size_) {
     shape.dim_size_ = nullptr;
   }
 
@@ -88,6 +87,7 @@ public:
   }
 
   void AppendDim(int dim) {
+    // TODO
     if (num_dims_ == 0) {
       dim_size_ = new int[3];      
     }
@@ -107,6 +107,8 @@ public:
   } 
   
   int NumElements() const {
+    if (num_dims_ == 0) return 0;
+
     int num_elements = 1;
     for (int i = 0; i < num_dims_; i++) {
       num_elements *= dim_size_[i]; 
