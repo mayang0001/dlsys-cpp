@@ -1,9 +1,21 @@
 #ifndef ADD_OP_H_
 #define ADD_OP_H_
 
-template <>
-struct AddFunctor<CpuContext, T> {
-  void operator()(const T* in1, const T* in2, const int N, T* out);
+template <typename Context, typename T>
+class AddOp : final Op<Context> {
+  AddOp();
+
+  void Compute(const Node& node, 
+               const std::vector<Tensor>& in_tensors,
+               std::vector<Tensor>& out_tensors) override;
+
+  void Infer(const Node& node,
+             const std::vector<TensorShape>& in_shapes,
+             std::vector<TensorShape>& out_shapes) override;
+
+  void Gradient(const Node& node,
+                const Node& in_grad,
+                std::vector<Node>& out_grads) override;
 };
 
 #endif //ADD_OP_H_
