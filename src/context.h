@@ -6,6 +6,9 @@ typedef enum {
   kGPU = 2
 } DeviceType; 
 
+class CPUContext;
+class GPUContext;
+
 class Context {
 public:
   Context(DeviceType device_type, int device_id)
@@ -14,11 +17,11 @@ public:
   DeviceType GetDeviceType() { return device_type_; }
   int GetDeviceId() { return device_id_; }
 
-  static Context cpu(int device_id = 0) {
+  static CPUContext CPU(int device_id = 0) {
     Context ctx(DeviceType::kCPU, device_id);
     return ctx; 
   }
-  static Context gpu(int device_id = 0) { 
+  static GPUContext GPU(int device_id = 0) { 
     Context ctx(DeviceType::kGPU, device_id);
     return ctx; 
   }
@@ -28,4 +31,13 @@ private:
   int device_id_;
 };
 
+class CPUContext final : public Context {
+ public:
+  CPUContext(int device_id = 0) : Context(DeviceType::kCPU, device_id) {};
+};
+
+class GPUContext final : public Context {
+ public:
+  GPUContext(int device_id = 0) : Context(DeviceType::kGPU, device_id) {};
+};
 #endif

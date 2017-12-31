@@ -2,6 +2,7 @@
 #define TENSOR_H_
 
 #include <iostream>
+#include <sstream>
 #include <memory>
 #include <vector>
 #include "context.h"
@@ -10,9 +11,14 @@
 class Tensor {
 public:
   Tensor() 
-      : shape_(TensorShape(0)), ctx_(Context::cpu()) {
+      : shape_(TensorShape(0)), ctx_(Context::CPU()) {
     handle_ = new float[shape_.NumElements()];
   };
+
+  Tensor(const TensorShape& shape) 
+      : shape_(shape), ctx_(Context::CPU()) {
+    handle_ = new float[shape_.NumElements()];
+  }
 
   Tensor(const TensorShape& shape, const Context& ctx)
       : shape_(shape), ctx_(ctx) {
@@ -159,25 +165,25 @@ public:
   }
 
   // For 2 dims tensor and 1 dim tensor
-  void Debug() const {
+  std::string Debug() const {
+    std::stringstream ss;
     if (shape_.NumDims() == 2) {
       int dim_a = shape_.DimSize(0);
       int dim_b = shape_.DimSize(1);
       for (int i = 0; i < dim_a; i++) {
         for (int j = 0; j < dim_b; j++) {
-          std::cout << handle_[dim_b * i + j] << " ";
+          ss << handle_[dim_b * i + j] << " ";
         }
-        std::cout << std::endl;
       } 
     } else {
       for (int i = 0; i < shape_.DimSize(0); i++) {
-        std::cout << handle_[i] << " ";
+        ss << handle_[i] << " ";
       }
-      std::cout << std::endl;
     }
+    return ss.str();
   }
 
-private:
+ private:
   float* handle_;
   Context ctx_;
   TensorShape shape_;
