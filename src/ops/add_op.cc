@@ -1,6 +1,13 @@
 #include "add_op.h"
 
-template <typename T> struct CpuAddFunctor;
+template <typename T> 
+struct CpuAddFunctor {
+  void operator()(const T* in1, const T* in2, const int N, T* out) {
+    for (int i = 0; i < N; i++) {
+      out[i] = in1[i] + in2[i];
+    }
+  }
+};
 
 template <>
 void AddOp<CPUContext, float>::Compute(const Node& node,
@@ -8,7 +15,10 @@ void AddOp<CPUContext, float>::Compute(const Node& node,
                                        std::vector<Tensor>& out_tensors) {
   assert(in_tensors.size() == 2);
   const int N = out_tensors[0].NumElements();
-  CpuAddFunctor<float>()(in_tensors[0], in_tensors[1], N, out_tensors[0]);
+  CpuAddFunctor<float>()(in_tensors[0].GetHandle(), 
+                         in_tensors[1].GetHandle(), 
+                         N, 
+                         out_tensors[0].GetHandle());
 }
 
 

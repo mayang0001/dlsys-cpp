@@ -5,6 +5,7 @@
 
 template <typename Context, typename T>
 class AddOp final : public Op<Context> {
+ public:
   AddOp();
 
   void Compute(const Node& node, 

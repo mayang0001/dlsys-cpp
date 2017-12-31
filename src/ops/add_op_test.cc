@@ -5,8 +5,7 @@
 #include "add_op.h"
 
 int main() {
-  CPUContext ctx = Context::CPU();
-  AddOp<ctx, float> add_op;
+  AddOp<CPUContext, float> add_op;
   std::vector<float> vals(100);
   for (int i = 0; i < 100; i++) vals[i] = 100;
 
