@@ -1,8 +1,10 @@
 #ifndef ADD_OP_H_
 #define ADD_OP_H_
 
+#include "op.h"
+
 template <typename Context, typename T>
-class AddOp : final Op<Context> {
+class AddOp final : public Op<Context> {
   AddOp();
 
   void Compute(const Node& node, 

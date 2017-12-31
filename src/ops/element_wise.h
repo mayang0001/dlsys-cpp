@@ -59,3 +59,4 @@ struct Gpu##name##Functor {                                           		  \
   }                                                                   		  \
 };
 
+CpuBinaryFunctor(Add, +);
